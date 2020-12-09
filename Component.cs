@@ -42,11 +42,15 @@ namespace LiveSplit.UI.Components
             var activityManager = discord.GetActivityManager();
 
             string RunningState;
+            string RunningImage = "gray_square";
 
             if (RunState == TimerPhase.NotRunning)
                 RunningState = "Not Running";
             else if (RunState == TimerPhase.Running)
+            {
                 RunningState = "Running";
+                RunningImage = "green_square";
+            }
             else if (RunState == TimerPhase.Paused)
                 RunningState = "Paused";
             else
@@ -60,7 +64,9 @@ namespace LiveSplit.UI.Components
                 Assets =
                 {
                     LargeImage = "livesplit_icon",
-                    LargeText = RunningState
+                    LargeText = "LiveSplit",
+                    SmallText = RunningState,
+                    SmallImage = RunningImage
                 }
             };
             activityManager.UpdateActivity(activity, (res) =>
