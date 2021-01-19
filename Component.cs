@@ -16,15 +16,10 @@ namespace LiveSplit.UI.Components
 
         public Discord.Discord discord;
 
-        public TimerPhase LastRunningState;
-        public string LastCategory;
-        public string LastGame;
-
         public DiscordIntegration(LiveSplitState state)
         {
-            discord = new Discord.Discord(763054362107838504, (UInt64)Discord.CreateFlags.Default);
-
-            UpdatePresence(state.CurrentPhase, state.Run.CategoryName, state.Run.GameName);
+            discord = new Discord.Discord(763054362107838504, (UInt64)CreateFlags.Default);
+            UpdatePresence(state);
 
         }
 
@@ -33,45 +28,70 @@ namespace LiveSplit.UI.Components
             discord.Dispose();
         }
 
-        public void UpdatePresence(TimerPhase RunState, string CategoryName, string GameName)
+        public void UpdatePresence(LiveSplitState state)
         {
-            LastRunningState = RunState;
-            LastCategory = CategoryName;
-            LastGame = GameName;
+            TimerPhase RunState = state.CurrentPhase;
+            string CategoryName = state.Run.CategoryName;
+            string GameName = state.Run.GameName;
+
+            TimeSpan? delta = TimeSpan.Zero;
 
             var activityManager = discord.GetActivityManager();
 
             string RunningState;
             string RunningImage = "gray_square";
+            string PlusMinus = "";
+            string decimalFormat = @"\.f";
 
             if (RunState == TimerPhase.NotRunning)
                 RunningState = "Not Running";
             else if (RunState == TimerPhase.Running)
             {
-                RunningState = "Running";
-                RunningImage = "green_square";
+                if (state.CurrentSplitIndex > 0)
+                {
+                    delta = LiveSplitStateHelper.GetLastDelta(state, state.CurrentSplitIndex, state.CurrentComparison, state.CurrentTimingMethod);
+
+                    if (delta.Value > TimeSpan.Zero)
+                        PlusMinus = "+";
+                    else
+                        PlusMinus = "-";
+                }
+                string timestring;
+                if (state.CurrentSplitIndex <= 0)
+                    timestring = "";
+                else if (delta.Value.Minutes == 0)
+                    timestring = PlusMinus + delta.Value.ToString(@"ss" + decimalFormat) + " ";
+                else
+                    timestring = PlusMinus + delta.Value.ToString(@"mm\:ss" + decimalFormat) + " ";
+
+                RunningState = "In " + state.CurrentSplit.Name;
+                if (state.CurrentSplitIndex > 0)
+                    RunningState = timestring + RunningState;
+                RunningImage = (PlusMinus == "+" ? "red_square" : "green_square");
             }
             else if (RunState == TimerPhase.Paused)
                 RunningState = "Paused";
             else
-                RunningState = "Ended";
+            {
+                var time = state.CurrentTime[state.CurrentTimingMethod];
+                RunningState = "Ended. Final Time: " + time.Value.ToString(@"hh\:mm\:ss");
+            }
 
-
-            var activity = new Discord.Activity
+            var activity = new Activity
             {
                 Details = GameName,
                 State = CategoryName,
                 Assets =
                 {
                     LargeImage = "livesplit_icon",
-                    LargeText = "LiveSplit",
+                    LargeText = "Attempt " + state.Run.AttemptCount.ToString(),
                     SmallText = RunningState,
                     SmallImage = RunningImage
                 }
             };
             activityManager.UpdateActivity(activity, (res) =>
             {
-                if (res != Discord.Result.Ok)
+                if (res != Result.Ok)
                     throw new ResultException(res);
             });
         }
@@ -86,10 +106,7 @@ namespace LiveSplit.UI.Components
 
         public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            if (state.CurrentPhase != LastRunningState || state.Run.CategoryName != LastCategory || state.Run.GameName != LastGame)
-            {
-                UpdatePresence(state.CurrentPhase, state.Run.CategoryName, state.Run.GameName);
-            }
+            UpdatePresence(state);
 
             discord.RunCallbacks();
         }
