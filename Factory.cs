@@ -14,8 +14,8 @@ namespace LiveSplit.UI.Components
         public Version Version => Version.Parse("1.8.0");
 
         public string UpdateName => ComponentName;
-        public string UpdateURL => "http://livesplit.org/update/";
-        public string XMLURL => "http://livesplit.org/update/Components/update.LiveSplit.ScriptableAutoSplit.xml";
+        public string UpdateURL => "https://github.com/Minibeast/LiveSplit.Discord";
+        public string XMLURL => "Components/LiveSplit.Discord.xml";
 
         public IComponent Create(LiveSplitState state) => new DiscordIntegration(state);
     }
