@@ -1,27 +1,30 @@
-using System;
-using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
+using System.Windows.Forms;
 using LiveSplit.Model;
+using LiveSplit.Options;
 using Discord;
 
 namespace LiveSplit.UI.Components
 {
-    public class DiscordIntegration : LogicComponent
+    public class DiscordComponent : LogicComponent
     {
         public override string ComponentName => "Discord Rich Presence";
 
         public Discord.Discord discord;
 
-        public DiscordIntegration(LiveSplitState state)
+        private DiscordSettings Settings { get; set; }
+        private LiveSplitState State { get; set; }
+
+        public DiscordComponent(LiveSplitState state)
         {
             discord = new Discord.Discord(763054362107838504, (UInt64)CreateFlags.Default);
-            UpdatePresence(state);
-
-        }
-
-        public override void Dispose()
-        {
-            discord.Dispose();
+            Settings = new DiscordSettings();
+            State = state;
         }
 
         public void UpdatePresence(LiveSplitState state)
@@ -38,6 +41,7 @@ namespace LiveSplit.UI.Components
             string RunningImage = "gray_square";
             string PlusMinus = "";
             string decimalFormat = @"\.f";
+            string timestring = "";
 
             if (RunState == TimerPhase.NotRunning)
                 RunningState = "Not Running";
@@ -52,7 +56,6 @@ namespace LiveSplit.UI.Components
                     else
                         PlusMinus = "-";
                 }
-                string timestring;
                 if (state.CurrentSplitIndex <= 0)
                     timestring = "";
                 else if (delta.Value.Minutes == 0)
@@ -75,18 +78,19 @@ namespace LiveSplit.UI.Components
 
             DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-            long StartTime = (long) (state.AttemptStarted - sTime).TotalSeconds;
+            long StartTime = (long)(state.AttemptStarted - sTime).TotalSeconds;
 
-            if (RunState == TimerPhase.Running) {
+            if (RunState == TimerPhase.Running && Settings.DisplayElapsedTime)
+            {
                 var activity = new Activity
                 {
-                    Details = GameName,
-                    State = CategoryName,
+                    Details = CheckText(Settings.Details),
+                    State = CheckText(Settings.State),
                     Assets =
                     {
                         LargeImage = "livesplit_icon",
-                        LargeText = "Attempt " + state.Run.AttemptCount.ToString(),
-                        SmallText = RunningState,
+                        LargeText = CheckText(Settings.largeImageKey),
+                        SmallText = CheckText(Settings.smallImageKey),
                         SmallImage = RunningImage
                     },
                     Timestamps =
@@ -104,13 +108,13 @@ namespace LiveSplit.UI.Components
             {
                 var activity = new Activity
                 {
-                    Details = GameName,
-                    State = CategoryName,
+                    Details = CheckText(Settings.Details),
+                    State = CheckText(Settings.State),
                     Assets =
                     {
                         LargeImage = "livesplit_icon",
-                        LargeText = "Attempt " + state.Run.AttemptCount.ToString(),
-                        SmallText = RunningState,
+                        LargeText = CheckText(Settings.largeImageKey),
+                        SmallText = CheckText(Settings.smallImageKey),
                         SmallImage = RunningImage
                     }
                 };
@@ -120,21 +124,62 @@ namespace LiveSplit.UI.Components
                         throw new ResultException(res);
                 });
             }
+
+            string CheckText(string text)
+            {
+                text = text.Replace("%game", GameName);
+                text = text.Replace("%category", CategoryName);
+                text = text.Replace("%attempts", state.Run.AttemptCount.ToString());
+
+                if (text.Contains("%delta") || text.Contains("%split"))
+                {
+                    if (RunState == TimerPhase.NotRunning)
+                        return "Not Running";
+                    else if (RunState == TimerPhase.Ended)
+                    {
+                        var time = state.CurrentTime[state.CurrentTimingMethod];
+                        return "Ended. Final Time: " + time.Value.ToString(@"hh\:mm\:ss");
+                    }
+                    else if (RunState == TimerPhase.Paused)
+                        return "Paused";
+                    else
+                    {
+                        text = text.Replace("%delta", timestring);
+                        text = text.Replace("%split", state.CurrentSplit.Name);
+                    }
+                }
+
+                return text;
+
+            }
         }
-
-        public override Control GetSettingsControl(LayoutMode mode)
-        { return null; }
-
-        public override XmlNode GetSettings(XmlDocument document)
-        { return null; }
-
-        public override void SetSettings(XmlNode settings) { }
 
         public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
             UpdatePresence(state);
 
             discord.RunCallbacks();
+        }
+
+        public override void SetSettings(XmlNode settings)
+        {
+            Settings.SetSettings(settings);
+        }
+
+        public override XmlNode GetSettings(XmlDocument document)
+        {
+            return Settings.GetSettings(document);
+        }
+
+        public override Control GetSettingsControl(LayoutMode mode)
+        {
+            Settings.Mode = mode;
+            return Settings;
+        }
+
+        public override void Dispose()
+        {
+            discord.Dispose();
         }
     }
 }
