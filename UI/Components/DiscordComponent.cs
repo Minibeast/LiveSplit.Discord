@@ -51,16 +51,16 @@ namespace LiveSplit.UI.Components
                 {
                     delta = LiveSplitStateHelper.GetLastDelta(state, state.CurrentSplitIndex, state.CurrentComparison, state.CurrentTimingMethod);
 
-                    if (delta.Value > TimeSpan.Zero)
+                    if (delta != null && delta.Value > TimeSpan.Zero)
                         PlusMinus = "+";
                     else
                         PlusMinus = "-";
                 }
                 if (state.CurrentSplitIndex <= 0)
                     timestring = "";
-                else if (delta.Value.Minutes == 0)
+                else if (delta != null && delta.Value.Minutes == 0)
                     timestring = PlusMinus + delta.Value.ToString(@"ss" + decimalFormat) + " ";
-                else
+                else if (delta != null)
                     timestring = PlusMinus + delta.Value.ToString(@"mm\:ss" + decimalFormat) + " ";
 
                 RunningState = "In " + state.CurrentSplit.Name;
