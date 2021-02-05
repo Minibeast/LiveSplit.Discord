@@ -1,11 +1,7 @@
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using LiveSplit.Model;
-using LiveSplit.Options;
 using Discord;
 
 namespace LiveSplit.UI.Components
@@ -77,23 +73,53 @@ namespace LiveSplit.UI.Components
                 RunningState = "Ended. Final Time: " + time.Value.ToString(@"hh\:mm\:ss");
             }
 
-            var activity = new Activity
-            {
-                Details = GameName,
-                State = CategoryName,
-                Assets =
+            DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+            long StartTime = (long) (state.AttemptStarted - sTime).TotalSeconds;
+
+            if (RunState == TimerPhase.Running) {
+                var activity = new Activity
                 {
-                    LargeImage = "livesplit_icon",
-                    LargeText = "Attempt " + state.Run.AttemptCount.ToString(),
-                    SmallText = RunningState,
-                    SmallImage = RunningImage
-                }
-            };
-            activityManager.UpdateActivity(activity, (res) =>
+                    Details = GameName,
+                    State = CategoryName,
+                    Assets =
+                    {
+                        LargeImage = "livesplit_icon",
+                        LargeText = "Attempt " + state.Run.AttemptCount.ToString(),
+                        SmallText = RunningState,
+                        SmallImage = RunningImage
+                    },
+                    Timestamps =
+                    {
+                        Start = StartTime
+                    }
+                };
+                activityManager.UpdateActivity(activity, (res) =>
+                {
+                    if (res != Result.Ok)
+                        throw new ResultException(res);
+                });
+            }
+            else
             {
-                if (res != Result.Ok)
-                    throw new ResultException(res);
-            });
+                var activity = new Activity
+                {
+                    Details = GameName,
+                    State = CategoryName,
+                    Assets =
+                    {
+                        LargeImage = "livesplit_icon",
+                        LargeText = "Attempt " + state.Run.AttemptCount.ToString(),
+                        SmallText = RunningState,
+                        SmallImage = RunningImage
+                    }
+                };
+                activityManager.UpdateActivity(activity, (res) =>
+                {
+                    if (res != Result.Ok)
+                        throw new ResultException(res);
+                });
+            }
         }
 
         public override Control GetSettingsControl(LayoutMode mode)
