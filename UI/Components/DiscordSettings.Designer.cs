@@ -70,7 +70,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 269);
             this.tableLayoutPanel1.TabIndex = 0;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // label4
             // 
@@ -162,12 +161,11 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(103, 161);
+            this.label5.Location = new System.Drawing.Point(103, 155);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(356, 91);
+            this.label5.Size = new System.Drawing.Size(356, 104);
             this.label5.TabIndex = 10;
             this.label5.Text = resources.GetString("label5.Text");
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // DiscordSettings
             // 

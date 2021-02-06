@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Windows.Forms;
 using LiveSplit.Model;
-using LiveSplit.Options;
 using Discord;
 
 namespace LiveSplit.UI.Components
@@ -37,15 +32,12 @@ namespace LiveSplit.UI.Components
 
             var activityManager = discord.GetActivityManager();
 
-            string RunningState;
             string RunningImage = "gray_square";
             string PlusMinus = "";
             string decimalFormat = @"\.f";
             string timestring = "";
 
-            if (RunState == TimerPhase.NotRunning)
-                RunningState = "Not Running";
-            else if (RunState == TimerPhase.Running)
+            if (RunState == TimerPhase.Running)
             {
                 if (state.CurrentSplitIndex > 0)
                 {
@@ -63,17 +55,7 @@ namespace LiveSplit.UI.Components
                 else if (delta != null)
                     timestring = PlusMinus + delta.Value.ToString(@"mm\:ss" + decimalFormat) + " ";
 
-                RunningState = "In " + state.CurrentSplit.Name;
-                if (state.CurrentSplitIndex > 0)
-                    RunningState = timestring + RunningState;
                 RunningImage = (PlusMinus == "+" ? "red_square" : "green_square");
-            }
-            else if (RunState == TimerPhase.Paused)
-                RunningState = "Paused";
-            else
-            {
-                var time = state.CurrentTime[state.CurrentTimingMethod];
-                RunningState = "Ended. Final Time: " + time.Value.ToString(@"hh\:mm\:ss");
             }
 
             DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -130,6 +112,7 @@ namespace LiveSplit.UI.Components
                 text = text.Replace("%game", GameName);
                 text = text.Replace("%category", CategoryName);
                 text = text.Replace("%attempts", state.Run.AttemptCount.ToString());
+                text = text.Replace("%comparison", state.CurrentComparison);
 
                 if (text.Contains("%delta") || text.Contains("%split"))
                 {

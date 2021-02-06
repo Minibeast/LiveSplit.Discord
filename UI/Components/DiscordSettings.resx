@@ -124,6 +124,7 @@
 %category = The name of the Category
 %attempts = The attempt counter in LiveSplit
 %delta = The last split delta on your current comparison
-%split = The name of the current split you're on</value>
+%split = The name of the current split you're on
+%comparison = The name of the current comparison you're on</value>
   </data>
 </root>

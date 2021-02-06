@@ -5,9 +5,6 @@ using LiveSplit.UI;
 using System;
 using System.Windows.Forms;
 using System.Xml;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.IO;
 
 namespace LiveSplit.UI.Components
 {
@@ -32,6 +29,7 @@ namespace LiveSplit.UI.Components
             State = "%category";
             largeImageKey = "Attempt %attempts";
             smallImageKey = "%delta In %split";
+            DisplayElapsedTime = true;
 
             largeText.DataBindings.Add("Text", this, "Details");
             smallText.DataBindings.Add("Text", this, "State");
@@ -70,16 +68,6 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "largeImageKey", largeImageKey) ^
             SettingsHelper.CreateSetting(document, parent, "smallImageKey", smallImageKey) ^
             SettingsHelper.CreateSetting(document, parent, "DisplayElapsedTime", DisplayElapsedTime);
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
