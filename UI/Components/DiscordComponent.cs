@@ -26,11 +26,22 @@ namespace LiveSplit.UI.Components
         {
             TimerPhase RunState = state.CurrentPhase;
             string CategoryName = state.Run.CategoryName;
+            string DetailedCategoryName = state.Run.GetExtendedCategoryName();
             string GameName = state.Run.GameName;
 
             TimeSpan? delta = TimeSpan.Zero;
 
             var activityManager = discord.GetActivityManager();
+
+            if (RunState == TimerPhase.NotRunning && Settings.NRClearActivity)
+            {
+                activityManager.ClearActivity((res) =>
+                {
+                    if (res != Result.Ok)
+                        throw new ResultException(res);
+                });
+                return;
+            }
 
             string RunningImage = "gray_square";
             string PlusMinus = "";
@@ -110,6 +121,7 @@ namespace LiveSplit.UI.Components
             string CheckText(string text)
             {
                 text = text.Replace("%game", GameName);
+                text = text.Replace("%category_detailed", DetailedCategoryName);
                 text = text.Replace("%category", CategoryName);
                 text = text.Replace("%attempts", state.Run.AttemptCount.ToString());
                 text = text.Replace("%comparison", state.CurrentComparison);

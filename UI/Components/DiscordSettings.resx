@@ -122,6 +122,7 @@
 
 %game = The name of the Game
 %category = The name of the Category
+%category_detailed = The Category name with Variables
 %attempts = The attempt counter in LiveSplit
 %delta = The last split delta on your current comparison
 %split = The name of the current split you're on

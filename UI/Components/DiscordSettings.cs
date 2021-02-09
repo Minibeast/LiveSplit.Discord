@@ -15,6 +15,7 @@ namespace LiveSplit.UI.Components
         public string largeImageKey { get; set; }
         public string smallImageKey { get; set; }
         public bool DisplayElapsedTime { get; set; }
+        public bool NRClearActivity { get; set; }
         public LayoutMode Mode { get; set; }
 
         protected ITimeFormatter TimeFormatter { get; set; }
@@ -30,12 +31,14 @@ namespace LiveSplit.UI.Components
             largeImageKey = "Attempt %attempts";
             smallImageKey = "%delta In %split";
             DisplayElapsedTime = true;
+            NRClearActivity = false;
 
             largeText.DataBindings.Add("Text", this, "Details");
             smallText.DataBindings.Add("Text", this, "State");
             largeImageText.DataBindings.Add("Text", this, "largeImageKey");
             smallImageText.DataBindings.Add("Text", this, "smallImageKey");
             chkElapsed.DataBindings.Add("Checked", this, "DisplayElapsedTime");
+            chkClear.DataBindings.Add("Checked", this, "NRClearActivity");
         }
 
         public void SetSettings(XmlNode node)
@@ -46,6 +49,7 @@ namespace LiveSplit.UI.Components
             largeImageKey = SettingsHelper.ParseString(element["largeImageKey"]);
             smallImageKey = SettingsHelper.ParseString(element["smallImageKey"]);
             DisplayElapsedTime = SettingsHelper.ParseBool(element["DisplayElapsedTime"]);
+            NRClearActivity = SettingsHelper.ParseBool(element["NRClearActivity"]);
         }
 
         public XmlNode GetSettings(XmlDocument document)
@@ -67,7 +71,8 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "State", State) ^
             SettingsHelper.CreateSetting(document, parent, "largeImageKey", largeImageKey) ^
             SettingsHelper.CreateSetting(document, parent, "smallImageKey", smallImageKey) ^
-            SettingsHelper.CreateSetting(document, parent, "DisplayElapsedTime", DisplayElapsedTime);
+            SettingsHelper.CreateSetting(document, parent, "DisplayElapsedTime", DisplayElapsedTime) ^
+            SettingsHelper.CreateSetting(document, parent, "NRClearActivity", NRClearActivity);
         }
     }
 }

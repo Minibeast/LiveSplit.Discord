@@ -40,6 +40,7 @@
             this.chkElapsed = new System.Windows.Forms.CheckBox();
             this.smallImageText = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.chkClear = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,27 +56,29 @@
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.smallText, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.largeImageText, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.chkElapsed, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.chkElapsed, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.smallImageText, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.label5, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.chkClear, 1, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 7;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 269);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 325);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 95);
+            this.label4.Location = new System.Drawing.Point(3, 97);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(94, 13);
             this.label4.TabIndex = 8;
@@ -141,7 +144,7 @@
             this.chkElapsed.AutoSize = true;
             this.chkElapsed.Checked = true;
             this.chkElapsed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkElapsed.Location = new System.Drawing.Point(107, 122);
+            this.chkElapsed.Location = new System.Drawing.Point(107, 160);
             this.chkElapsed.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkElapsed.Name = "chkElapsed";
             this.chkElapsed.Size = new System.Drawing.Size(352, 17);
@@ -152,7 +155,7 @@
             // smallImageText
             // 
             this.smallImageText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.smallImageText.Location = new System.Drawing.Point(103, 91);
+            this.smallImageText.Location = new System.Drawing.Point(103, 94);
             this.smallImageText.Name = "smallImageText";
             this.smallImageText.Size = new System.Drawing.Size(356, 20);
             this.smallImageText.TabIndex = 7;
@@ -161,11 +164,23 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(103, 155);
+            this.label5.Location = new System.Drawing.Point(103, 196);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(356, 104);
+            this.label5.Size = new System.Drawing.Size(356, 117);
             this.label5.TabIndex = 10;
             this.label5.Text = resources.GetString("label5.Text");
+            // 
+            // chkClear
+            // 
+            this.chkClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkClear.AutoSize = true;
+            this.chkClear.Location = new System.Drawing.Point(107, 128);
+            this.chkClear.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkClear.Name = "chkClear";
+            this.chkClear.Size = new System.Drawing.Size(352, 17);
+            this.chkClear.TabIndex = 11;
+            this.chkClear.Text = "Clear Activity if Not Running";
+            this.chkClear.UseVisualStyleBackColor = true;
             // 
             // DiscordSettings
             // 
@@ -174,7 +189,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DiscordSettings";
             this.Padding = new System.Windows.Forms.Padding(7);
-            this.Size = new System.Drawing.Size(476, 283);
+            this.Size = new System.Drawing.Size(476, 339);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -194,5 +209,6 @@
         private System.Windows.Forms.TextBox largeImageText;
         private System.Windows.Forms.CheckBox chkElapsed;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chkClear;
     }
 }
