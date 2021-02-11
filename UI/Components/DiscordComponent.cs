@@ -12,6 +12,7 @@ namespace LiveSplit.UI.Components
 
         public Discord.Discord discord;
 
+
         private DiscordSettings Settings { get; set; }
         private LiveSplitState State { get; set; }
 
@@ -20,6 +21,7 @@ namespace LiveSplit.UI.Components
             discord = new Discord.Discord(763054362107838504, (UInt64)CreateFlags.Default);
             Settings = new DiscordSettings();
             State = state;
+
         }
 
         public void UpdatePresence(LiveSplitState state)
@@ -47,12 +49,19 @@ namespace LiveSplit.UI.Components
             string PlusMinus = "";
             string decimalFormat = @"\.f";
             string timestring = "";
+            string SplitName = "";
 
             if (RunState == TimerPhase.Running)
+                SplitName = state.CurrentSplit.Name;
+
+
+            if (RunState != TimerPhase.NotRunning)
             {
                 if (state.CurrentSplitIndex > 0)
                 {
-                    delta = LiveSplitStateHelper.GetLastDelta(state, state.CurrentSplitIndex, state.CurrentComparison, state.CurrentTimingMethod);
+                    int SplitIndex = (RunState == TimerPhase.Ended ? state.CurrentSplitIndex - 1 : state.CurrentSplitIndex);
+
+                    delta = LiveSplitStateHelper.GetLastDelta(state, SplitIndex, state.CurrentComparison, state.CurrentTimingMethod);
 
                     if (delta != null && delta.Value > TimeSpan.Zero)
                         PlusMinus = "+";
@@ -66,7 +75,8 @@ namespace LiveSplit.UI.Components
                 else if (delta != null)
                     timestring = PlusMinus + delta.Value.ToString(@"mm\:ss" + decimalFormat) + " ";
 
-                RunningImage = (PlusMinus == "+" ? "red_square" : "green_square");
+                if (RunState != TimerPhase.Paused)
+                    RunningImage = (PlusMinus == "+" ? "red_square" : "green_square");
             }
 
             DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -77,13 +87,13 @@ namespace LiveSplit.UI.Components
             {
                 var activity = new Activity
                 {
-                    Details = CheckText(Settings.Details),
-                    State = CheckText(Settings.State),
+                    Details = CheckText("Details"),
+                    State = CheckText("State"),
                     Assets =
                     {
                         LargeImage = "livesplit_icon",
-                        LargeText = CheckText(Settings.largeImageKey),
-                        SmallText = CheckText(Settings.smallImageKey),
+                        LargeText = CheckText("largeImage"),
+                        SmallText = CheckText("smallImage"),
                         SmallImage = RunningImage
                     },
                     Timestamps =
@@ -101,13 +111,13 @@ namespace LiveSplit.UI.Components
             {
                 var activity = new Activity
                 {
-                    Details = CheckText(Settings.Details),
-                    State = CheckText(Settings.State),
+                    Details = CheckText("Details"),
+                    State = CheckText("State"),
                     Assets =
                     {
                         LargeImage = "livesplit_icon",
-                        LargeText = CheckText(Settings.largeImageKey),
-                        SmallText = CheckText(Settings.smallImageKey),
+                        LargeText = CheckText("largeImage"),
+                        SmallText = CheckText("smallImage"),
                         SmallImage = RunningImage
                     }
                 };
@@ -118,34 +128,113 @@ namespace LiveSplit.UI.Components
                 });
             }
 
-            string CheckText(string text)
+            string CheckText(string item)
             {
+
+                string text = GetText(item);
+
+                if (text == "%inherit")
+                {
+                    text = GetText(item, true);
+
+                    if (text.Contains("%delta") || text.Contains("%split"))
+                    {
+                        if (RunState == TimerPhase.NotRunning)
+                            return "Not Running";
+                        else if (RunState == TimerPhase.Ended)
+                        {
+                            var time = state.CurrentTime[state.CurrentTimingMethod];
+                            return "Ended. Final Time: " + time.Value.ToString(@"hh\:mm\:ss");
+                        }
+                        else if (RunState == TimerPhase.Paused)
+                            return "Paused";
+                        else
+                        {
+                            text = text.Replace("%delta", timestring);
+                            text = text.Replace("%split", SplitName);
+                        }
+                    }
+                }
+                else
+                {
+                    text = text.Replace("%delta", timestring);
+                    text = text.Replace("%split", SplitName);
+                }
+
                 text = text.Replace("%game", GameName);
                 text = text.Replace("%category_detailed", DetailedCategoryName);
                 text = text.Replace("%category", CategoryName);
                 text = text.Replace("%attempts", state.Run.AttemptCount.ToString());
                 text = text.Replace("%comparison", state.CurrentComparison);
+                var nottime = state.CurrentTime[state.CurrentTimingMethod];
+                text = text.Replace("%time", nottime.Value.ToString(@"hh\:mm\:ss"));
 
-                if (text.Contains("%delta") || text.Contains("%split"))
-                {
-                    if (RunState == TimerPhase.NotRunning)
-                        return "Not Running";
-                    else if (RunState == TimerPhase.Ended)
-                    {
-                        var time = state.CurrentTime[state.CurrentTimingMethod];
-                        return "Ended. Final Time: " + time.Value.ToString(@"hh\:mm\:ss");
-                    }
-                    else if (RunState == TimerPhase.Paused)
-                        return "Paused";
-                    else
-                    {
-                        text = text.Replace("%delta", timestring);
-                        text = text.Replace("%split", state.CurrentSplit.Name);
-                    }
-                }
 
                 return text;
 
+            }
+
+            string GetText(string item, bool GetRunning = false)
+            {
+                if (RunState == TimerPhase.Running || GetRunning)
+                {
+                    if (item == "Details")
+                        return Settings.Details;
+
+                    else if (item == "State")
+                        return Settings.State;
+
+                    else if (item == "largeImage")
+                        return Settings.largeImageKey;
+
+                    else
+                        return Settings.smallImageKey;
+                }
+
+                else if (RunState == TimerPhase.NotRunning)
+                {
+                    if (item == "Details")
+                        return Settings.NRDetails;
+
+                    else if (item == "State")
+                        return Settings.NRState;
+
+                    else if (item == "largeImage")
+                        return Settings.NRlargeImageKey;
+
+                    else
+                        return Settings.NRsmallImageKey;
+                }
+
+                else if (RunState == TimerPhase.Ended)
+                {
+                    if (item == "Details")
+                        return Settings.EDetails;
+
+                    else if (item == "State")
+                        return Settings.EState;
+
+                    else if (item == "largeImage")
+                        return Settings.ElargeImageKey;
+
+                    else
+                        return Settings.EsmallImageKey;
+                }
+
+                else 
+                {
+                    if (item == "Details")
+                        return Settings.PDetails;
+
+                    else if (item == "State")
+                        return Settings.PState;
+
+                    else if (item == "largeImage")
+                        return Settings.PlargeImageKey;
+
+                    else
+                        return Settings.PsmallImageKey;
+                }
             }
         }
 
