@@ -18,10 +18,10 @@ namespace LiveSplit.UI.Components
 
         public string UpdateName => ComponentName;
 
-        public string XMLURL => "Components/LiveSplit.Discord.xml";
+        public string XMLURL => "https://minibeast.github.io/files/LiveSplit.Discord/update.LiveSplit.Discord.xml";
 
-        public string UpdateURL => "https://github.com/Minibeast/LiveSplit.Discord";
+        public string UpdateURL => "https://minibeast.github.io/files/";
 
-        public Version Version => Version.Parse("1.8.0");
+        public Version Version => Version.Parse("1.4.0");
     }
 }

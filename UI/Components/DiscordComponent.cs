@@ -51,7 +51,7 @@ namespace LiveSplit.UI.Components
             string timestring = "";
             string SplitName = "";
 
-            if (RunState == TimerPhase.Running)
+            if (RunState == TimerPhase.Running || RunState == TimerPhase.Paused)
                 SplitName = state.CurrentSplit.Name;
 
 
