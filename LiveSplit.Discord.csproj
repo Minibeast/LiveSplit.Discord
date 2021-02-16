@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="DiscordGameSDK\ActivityManager.cs" />
+    <Compile Include="DiscordGameSDK\ActivityManager.cs" />
     <Compile Include="DiscordGameSDK\Constants.cs" />
     <Compile Include="DiscordGameSDK\Core.cs" />
     <Compile Include="DiscordGameSDK\ImageManager.cs" />
@@ -59,6 +59,7 @@
     <Compile Include="UI\Components\DiscordSettings.Designer.cs">
       <DependentUpon>DiscordSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Components\ElapsedTimeType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LiveSplit.Core\LiveSplit.Core.csproj">

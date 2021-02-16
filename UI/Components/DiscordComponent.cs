@@ -79,11 +79,21 @@ namespace LiveSplit.UI.Components
                     RunningImage = (PlusMinus == "+" ? "red_square" : "green_square");
             }
 
-            DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            long StartTime = 0;
 
-            long StartTime = (long)(state.AttemptStarted - sTime).TotalSeconds;
+            if (Settings.DisplayElapsedTimeType == ElapsedTimeType.DisplayAttemptDuration || Settings.DisplayElapsedTimeType == ElapsedTimeType.DisplayADwOffset)
+            {
+                DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-            if (RunState == TimerPhase.Running && Settings.DisplayElapsedTime)
+                StartTime = (long)(state.AttemptStarted - sTime).TotalSeconds;
+
+                if (Settings.DisplayElapsedTimeType == ElapsedTimeType.DisplayADwOffset)
+                    StartTime -= (long) state.Run.Offset.TotalSeconds;
+            }
+            else if (Settings.DisplayElapsedTimeType == ElapsedTimeType.DisplayGameTime)
+                StartTime = DateTime.UtcNow.Ticks - (long) state.CurrentTime[state.CurrentTimingMethod].Value.TotalSeconds;
+
+            if (RunState == TimerPhase.Running && (int)Settings.DisplayElapsedTimeType >= 1)
             {
                 var activity = new Activity
                 {

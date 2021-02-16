@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DiscordSettings));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.chkElapsed = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.chkClear = new System.Windows.Forms.CheckBox();
+            this.combBoxElapsed = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.largeText = new System.Windows.Forms.TextBox();
@@ -91,9 +91,9 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.chkElapsed, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label5, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.chkClear, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.combBoxElapsed, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -104,20 +104,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 133F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 404);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // chkElapsed
-            // 
-            this.chkElapsed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkElapsed.AutoSize = true;
-            this.chkElapsed.Checked = true;
-            this.chkElapsed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkElapsed.Location = new System.Drawing.Point(107, 199);
-            this.chkElapsed.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkElapsed.Name = "chkElapsed";
-            this.chkElapsed.Size = new System.Drawing.Size(352, 17);
-            this.chkElapsed.TabIndex = 9;
-            this.chkElapsed.Text = "Display Elapsed Time";
-            this.chkElapsed.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -140,6 +126,20 @@
             this.chkClear.TabIndex = 11;
             this.chkClear.Text = "Clear Activity if Not Running";
             this.chkClear.UseVisualStyleBackColor = true;
+            // 
+            // combBoxElapsed
+            // 
+            this.combBoxElapsed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combBoxElapsed.FormattingEnabled = true;
+            this.combBoxElapsed.Items.AddRange(new object[] {
+            "Do Not Display Elapsed Time",
+            "Display Time Elapsed from Attempt Start",
+            "Display Time Elapsed from Attempt Start w/ Offset"});
+            this.combBoxElapsed.Location = new System.Drawing.Point(103, 193);
+            this.combBoxElapsed.Name = "combBoxElapsed";
+            this.combBoxElapsed.Size = new System.Drawing.Size(352, 21);
+            this.combBoxElapsed.TabIndex = 12;
+            this.combBoxElapsed.SelectedIndexChanged += new System.EventHandler(this.combBoxElapsed_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -584,6 +584,7 @@
             this.Name = "DiscordSettings";
             this.Padding = new System.Windows.Forms.Padding(7);
             this.Size = new System.Drawing.Size(476, 418);
+            this.Load += new System.EventHandler(this.DiscordSettings_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -613,7 +614,6 @@
         private System.Windows.Forms.TextBox smallImageText;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox largeImageText;
-        private System.Windows.Forms.CheckBox chkElapsed;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkClear;
         private System.Windows.Forms.TabControl tabControl1;
@@ -650,5 +650,6 @@
         public System.Windows.Forms.TextBox NRlargeText;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox NRsmallText;
+        private System.Windows.Forms.ComboBox combBoxElapsed;
     }
 }

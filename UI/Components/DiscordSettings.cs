@@ -1,8 +1,4 @@
-﻿using LiveSplit.Model;
-using LiveSplit.Options;
-using LiveSplit.TimeFormatters;
-using LiveSplit.UI;
-using System;
+﻿using System;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -32,23 +28,19 @@ namespace LiveSplit.UI.Components
         public string NRsmallImageKey { get; set; }
         //
 
-        public bool DisplayElapsedTime { get; set; }
+        public ElapsedTimeType DisplayElapsedTimeType { get; set; }
         public bool NRClearActivity { get; set; }
         public LayoutMode Mode { get; set; }
-
-        protected ITimeFormatter TimeFormatter { get; set; }
 
         public DiscordSettings()
         {
             InitializeComponent();
 
-            TimeFormatter = new ShortTimeFormatter();
-
             Details = "%game";
             State = "%category";
             largeImageKey = "Attempt %attempts";
             smallImageKey = "%delta In %split";
-            DisplayElapsedTime = true;
+            DisplayElapsedTimeType = ElapsedTimeType.DisplayAttemptDuration;
             NRClearActivity = false;
 
             // Garbage
@@ -88,34 +80,52 @@ namespace LiveSplit.UI.Components
             NRlargeImageText.DataBindings.Add("Text", this, "NRlargeImageKey");
             NRsmallImageText.DataBindings.Add("Text", this, "NRsmallImageKey");
 
-            chkElapsed.DataBindings.Add("Checked", this, "DisplayElapsedTime");
             chkClear.DataBindings.Add("Checked", this, "NRClearActivity");
+        }
+
+        void DiscordSettings_Load(object sender, EventArgs e)
+        {
+            combBoxElapsed.SelectedIndex = (int)DisplayElapsedTimeType;
+        }
+
+        void combBoxElapsed_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DisplayElapsedTimeType = (ElapsedTimeType)combBoxElapsed.SelectedIndex;
         }
 
         public void SetSettings(XmlNode node)
         {
             var element = (XmlElement)node;
+
+            Version version = SettingsHelper.ParseVersion(element["Version"]);
+
+            if (version >= new Version(1, 5))
+                DisplayElapsedTimeType = (ElapsedTimeType) SettingsHelper.ParseInt(element["DisplayElapsedTimeType"]);
+            else
+            {
+                bool oldTime = SettingsHelper.ParseBool(element["DisplayElapsedTime"], true);
+                DisplayElapsedTimeType = (oldTime ? ElapsedTimeType.DisplayAttemptDuration : ElapsedTimeType.DoNotDisplay);
+            }
             Details = SettingsHelper.ParseString(element["Details"]);
             State = SettingsHelper.ParseString(element["State"]);
             largeImageKey = SettingsHelper.ParseString(element["largeImageKey"]);
             smallImageKey = SettingsHelper.ParseString(element["smallImageKey"]);
 
-            EDetails = SettingsHelper.ParseString(element["EDetails"]);
-            EState = SettingsHelper.ParseString(element["EState"]);
-            ElargeImageKey = SettingsHelper.ParseString(element["ElargeImageKey"]);
-            EsmallImageKey = SettingsHelper.ParseString(element["EsmallImageKey"]);
+            EDetails = SettingsHelper.ParseString(element["EDetails"], "%inherit");
+            EState = SettingsHelper.ParseString(element["EState"], "%inherit");
+            ElargeImageKey = SettingsHelper.ParseString(element["ElargeImageKey"], "%inherit");
+            EsmallImageKey = SettingsHelper.ParseString(element["EsmallImageKey"], "%inherit");
 
-            PDetails = SettingsHelper.ParseString(element["PDetails"]);
-            PState = SettingsHelper.ParseString(element["PState"]);
-            PlargeImageKey = SettingsHelper.ParseString(element["PlargeImageKey"]);
-            PsmallImageKey = SettingsHelper.ParseString(element["PsmallImageKey"]);
+            PDetails = SettingsHelper.ParseString(element["PDetails"], "%inherit");
+            PState = SettingsHelper.ParseString(element["PState"], "%inherit");
+            PlargeImageKey = SettingsHelper.ParseString(element["PlargeImageKey"], "%inherit");
+            PsmallImageKey = SettingsHelper.ParseString(element["PsmallImageKey"], "%inherit");
 
-            NRDetails = SettingsHelper.ParseString(element["NRDetails"]);
-            NRState = SettingsHelper.ParseString(element["NRState"]);
-            NRlargeImageKey = SettingsHelper.ParseString(element["NRlargeImageKey"]);
-            NRsmallImageKey = SettingsHelper.ParseString(element["NRsmallImageKey"]);
+            NRDetails = SettingsHelper.ParseString(element["NRDetails"], "%inherit");
+            NRState = SettingsHelper.ParseString(element["NRState"], "%inherit");
+            NRlargeImageKey = SettingsHelper.ParseString(element["NRlargeImageKey"], "%inherit");
+            NRsmallImageKey = SettingsHelper.ParseString(element["NRsmallImageKey"], "%inherit");
 
-            DisplayElapsedTime = SettingsHelper.ParseBool(element["DisplayElapsedTime"]);
             NRClearActivity = SettingsHelper.ParseBool(element["NRClearActivity"]);
         }
 
@@ -133,12 +143,12 @@ namespace LiveSplit.UI.Components
 
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
-            return SettingsHelper.CreateSetting(document, parent, "Version", "1.4") ^
+            return SettingsHelper.CreateSetting(document, parent, "Version", "1.5") ^
             SettingsHelper.CreateSetting(document, parent, "Details", Details) ^
             SettingsHelper.CreateSetting(document, parent, "State", State) ^
             SettingsHelper.CreateSetting(document, parent, "largeImageKey", largeImageKey) ^
             SettingsHelper.CreateSetting(document, parent, "smallImageKey", smallImageKey) ^
-            SettingsHelper.CreateSetting(document, parent, "DisplayElapsedTime", DisplayElapsedTime) ^
+            SettingsHelper.CreateSetting(document, parent, "DisplayElapsedTimeType", (int) DisplayElapsedTimeType) ^
 
             SettingsHelper.CreateSetting(document, parent, "EDetails", EDetails) ^
             SettingsHelper.CreateSetting(document, parent, "EState", EState) ^
