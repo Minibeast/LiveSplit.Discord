@@ -11,6 +11,7 @@ namespace LiveSplit.UI.Components
         public override string ComponentName => "Discord Rich Presence";
 
         public Discord.Discord discord;
+        public ActivityManager activityManager;
 
 
         private DiscordSettings Settings { get; set; }
@@ -19,31 +20,10 @@ namespace LiveSplit.UI.Components
         public DiscordComponent(LiveSplitState state)
         {
             discord = new Discord.Discord(763054362107838504, (UInt64)CreateFlags.Default);
+            activityManager = discord.GetActivityManager();
+
             Settings = new DiscordSettings();
             State = state;
-
-            State.OnPause += State_Handler;
-            State.OnReset += State_OnReset;
-            State.OnResume += State_Handler;
-            State.OnSkipSplit += State_Handler;
-            State.OnSplit += State_Handler;
-            State.OnStart += State_Handler;
-            State.OnSwitchComparisonNext += State_Handler;
-            State.OnSwitchComparisonPrevious += State_Handler;
-            State.OnUndoSplit += State_Handler;
-
-            UpdatePresence(state);
-
-        }
-
-        private void State_OnReset(object sender, TimerPhase value)
-        {
-            UpdatePresence(State);
-        }
-
-        private void State_Handler(object sender, EventArgs e)
-        {
-            UpdatePresence(State);
         }
 
         public void UpdatePresence(LiveSplitState state)
@@ -54,8 +34,6 @@ namespace LiveSplit.UI.Components
             string GameName = state.Run.GameName;
 
             TimeSpan? delta = TimeSpan.Zero;
-
-            var activityManager = discord.GetActivityManager();
 
             if (RunState == TimerPhase.NotRunning && Settings.NRClearActivity)
             {
@@ -272,6 +250,7 @@ namespace LiveSplit.UI.Components
 
         public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
+            UpdatePresence(state);
             discord.RunCallbacks();
         }
 
@@ -294,16 +273,6 @@ namespace LiveSplit.UI.Components
         public override void Dispose()
         {
             discord.Dispose();
-
-            State.OnPause -= State_Handler;
-            State.OnReset -= State_OnReset;
-            State.OnResume -= State_Handler;
-            State.OnSkipSplit -= State_Handler;
-            State.OnSplit -= State_Handler;
-            State.OnStart -= State_Handler;
-            State.OnSwitchComparisonNext -= State_Handler;
-            State.OnSwitchComparisonPrevious -= State_Handler;
-            State.OnUndoSplit -= State_Handler;
         }
     }
 }
