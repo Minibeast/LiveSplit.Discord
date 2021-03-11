@@ -19,9 +19,14 @@ namespace LiveSplit.UI.Components
 
         public DiscordComponent(LiveSplitState state)
         {
-            discord = new Discord.Discord(763054362107838504, (UInt64)CreateFlags.Default);
-            activityManager = discord.GetActivityManager();
-
+            try
+            {
+                discord = new Discord.Discord(763054362107838504, (UInt64)CreateFlags.Default);
+                activityManager = discord.GetActivityManager();
+            } catch
+            {
+                MessageBox.Show("Something went wrong when initializing Discord. Make sure the client is open!" + Environment.NewLine + "LiveSplit will continue running as normal.");
+            }
             Settings = new DiscordSettings();
             State = state;
         }
@@ -250,8 +255,11 @@ namespace LiveSplit.UI.Components
 
         public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            UpdatePresence(state);
-            discord.RunCallbacks();
+            try
+            {
+                discord.RunCallbacks();
+                UpdatePresence(state);
+            } catch { return; }
         }
 
         public override void SetSettings(XmlNode settings)
@@ -272,7 +280,10 @@ namespace LiveSplit.UI.Components
 
         public override void Dispose()
         {
-            discord.Dispose();
+            try
+            {
+                discord.Dispose();
+            } catch { return; }
         }
     }
 }
