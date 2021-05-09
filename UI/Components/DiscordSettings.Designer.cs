@@ -74,6 +74,8 @@
             this.NRlargeText = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.NRsmallText = new System.Windows.Forms.TextBox();
+            this.combComparison = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -91,27 +93,30 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.label5, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.chkClear, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.combBoxElapsed, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.combBoxElapsed, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.combComparison, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label18, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 155F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 133F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 404);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 114F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 535);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(103, 237);
+            this.label5.Location = new System.Drawing.Point(103, 270);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(356, 156);
+            this.label5.Size = new System.Drawing.Size(356, 260);
             this.label5.TabIndex = 10;
             this.label5.Text = resources.GetString("label5.Text");
             // 
@@ -119,7 +124,7 @@
             // 
             this.chkClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.chkClear.AutoSize = true;
-            this.chkClear.Location = new System.Drawing.Point(107, 164);
+            this.chkClear.Location = new System.Drawing.Point(107, 167);
             this.chkClear.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkClear.Name = "chkClear";
             this.chkClear.Size = new System.Drawing.Size(352, 17);
@@ -135,7 +140,7 @@
             "Do Not Display Elapsed Time",
             "Display Time Elapsed from Attempt Start",
             "Display Time Elapsed from Attempt Start w/ Offset"});
-            this.combBoxElapsed.Location = new System.Drawing.Point(103, 193);
+            this.combBoxElapsed.Location = new System.Drawing.Point(103, 233);
             this.combBoxElapsed.Name = "combBoxElapsed";
             this.combBoxElapsed.Size = new System.Drawing.Size(352, 21);
             this.combBoxElapsed.TabIndex = 12;
@@ -575,6 +580,25 @@
             this.NRsmallText.Size = new System.Drawing.Size(348, 20);
             this.NRsmallText.TabIndex = 2;
             // 
+            // combComparison
+            // 
+            this.combComparison.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combComparison.FormattingEnabled = true;
+            this.combComparison.Location = new System.Drawing.Point(103, 199);
+            this.combComparison.Name = "combComparison";
+            this.combComparison.Size = new System.Drawing.Size(352, 21);
+            this.combComparison.TabIndex = 13;
+            // 
+            // label18
+            // 
+            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(3, 206);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(94, 13);
+            this.label18.TabIndex = 14;
+            this.label18.Text = "Comparison:";
+            // 
             // DiscordSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -583,7 +607,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DiscordSettings";
             this.Padding = new System.Windows.Forms.Padding(7);
-            this.Size = new System.Drawing.Size(476, 418);
+            this.Size = new System.Drawing.Size(476, 549);
             this.Load += new System.EventHandler(this.DiscordSettings_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -651,5 +675,7 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox NRsmallText;
         private System.Windows.Forms.ComboBox combBoxElapsed;
+        private System.Windows.Forms.ComboBox combComparison;
+        private System.Windows.Forms.Label label18;
     }
 }

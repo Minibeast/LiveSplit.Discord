@@ -2,6 +2,7 @@
 using System.Xml;
 using System.Windows.Forms;
 using LiveSplit.Model;
+using LiveSplit.Model.Comparisons;
 using Discord;
 
 namespace LiveSplit.UI.Components
@@ -12,10 +13,10 @@ namespace LiveSplit.UI.Components
 
         public Discord.Discord discord;
         public ActivityManager activityManager;
-
+        private LiveSplitState State { get; set; }
+        private bool Initialized;
 
         private DiscordSettings Settings { get; set; }
-        private LiveSplitState State { get; set; }
 
         public DiscordComponent(LiveSplitState state)
         {
@@ -23,16 +24,36 @@ namespace LiveSplit.UI.Components
             {
                 discord = new Discord.Discord(763054362107838504, (UInt64)CreateFlags.Default);
                 activityManager = discord.GetActivityManager();
+                Initialized = true;
             } catch
             {
                 MessageBox.Show("Something went wrong when initializing Discord. Make sure the client is open!" + Environment.NewLine + "LiveSplit will continue running as normal.");
+                Initialized = false;
             }
-            Settings = new DiscordSettings();
             State = state;
+            Settings = new DiscordSettings()
+            {
+                CurrentState = State
+            };
+            state.ComparisonRenamed += state_ComparisonRenamed;
+        }
+
+        void state_ComparisonRenamed(object sender, EventArgs e)
+        {
+            var args = (RenameEventArgs)e;
+            if (Settings.Comparison == args.OldName)
+            {
+                Settings.Comparison = args.NewName;
+                ((LiveSplitState)sender).Layout.HasChanged = true;
+            }
         }
 
         public void UpdatePresence(LiveSplitState state)
         {
+            string CurrentComparison = Settings.Comparison;
+            if (CurrentComparison == "Current Comparison")
+                CurrentComparison = state.CurrentComparison;
+
             TimerPhase RunState = state.CurrentPhase;
             string CategoryName = state.Run.CategoryName;
             string DetailedCategoryName = state.Run.GetExtendedCategoryName();
@@ -66,7 +87,7 @@ namespace LiveSplit.UI.Components
                 {
                     int SplitIndex = (RunState == TimerPhase.Ended ? state.CurrentSplitIndex - 1 : state.CurrentSplitIndex);
 
-                    delta = LiveSplitStateHelper.GetLastDelta(state, SplitIndex, state.CurrentComparison, state.CurrentTimingMethod);
+                    delta = LiveSplitStateHelper.GetLastDelta(state, SplitIndex, CurrentComparison, state.CurrentTimingMethod);
 
                     if (delta != null && delta.Value > TimeSpan.Zero)
                         PlusMinus = "+";
@@ -98,54 +119,32 @@ namespace LiveSplit.UI.Components
             else if (Settings.DisplayElapsedTimeType == ElapsedTimeType.DisplayGameTime)
                 StartTime = DateTime.UtcNow.Ticks - (long) state.CurrentTime[state.CurrentTimingMethod].Value.TotalSeconds;
 
+            var activity = new Activity
+            {
+                Details = CheckText("Details"),
+                State = CheckText("State"),
+                Assets =
+                {
+                    LargeImage = "livesplit_icon",
+                    LargeText = CheckText("largeImage")
+                }
+            };
+            if (Settings.Comparison != NoneComparisonGenerator.ComparisonName)
+            {
+                activity.Assets.SmallText = CheckText("smallImage");
+                activity.Assets.SmallImage = RunningImage;
+            }
             if (RunState == TimerPhase.Running && (int)Settings.DisplayElapsedTimeType >= 1)
+                activity.Timestamps.Start = StartTime;
+
+            activityManager.UpdateActivity(activity, (res) =>
             {
-                var activity = new Activity
-                {
-                    Details = CheckText("Details"),
-                    State = CheckText("State"),
-                    Assets =
-                    {
-                        LargeImage = "livesplit_icon",
-                        LargeText = CheckText("largeImage"),
-                        SmallText = CheckText("smallImage"),
-                        SmallImage = RunningImage
-                    },
-                    Timestamps =
-                    {
-                        Start = StartTime
-                    }
-                };
-                activityManager.UpdateActivity(activity, (res) =>
-                {
-                    if (res != Result.Ok)
-                        throw new ResultException(res);
-                });
-            }
-            else
-            {
-                var activity = new Activity
-                {
-                    Details = CheckText("Details"),
-                    State = CheckText("State"),
-                    Assets =
-                    {
-                        LargeImage = "livesplit_icon",
-                        LargeText = CheckText("largeImage"),
-                        SmallText = CheckText("smallImage"),
-                        SmallImage = RunningImage
-                    }
-                };
-                activityManager.UpdateActivity(activity, (res) =>
-                {
-                    if (res != Result.Ok)
-                        throw new ResultException(res);
-                });
-            }
+                if (res != Result.Ok)
+                    throw new ResultException(res);
+            });
 
             string CheckText(string item)
             {
-
                 string text = GetText(item);
 
                 if (text == "%inherit")
@@ -180,7 +179,7 @@ namespace LiveSplit.UI.Components
                 text = text.Replace("%category_detailed", DetailedCategoryName);
                 text = text.Replace("%category", CategoryName);
                 text = text.Replace("%attempts", state.Run.AttemptCount.ToString());
-                text = text.Replace("%comparison", state.CurrentComparison);
+                text = text.Replace("%comparison", CurrentComparison);
                 var nottime = state.CurrentTime[state.CurrentTimingMethod];
                 text = text.Replace("%time", nottime.Value.ToString(@"hh\:mm\:ss"));
 
@@ -255,11 +254,11 @@ namespace LiveSplit.UI.Components
 
         public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            try
+            if (Initialized)
             {
                 discord.RunCallbacks();
                 UpdatePresence(state);
-            } catch { return; }
+            }
         }
 
         public override void SetSettings(XmlNode settings)
@@ -280,10 +279,8 @@ namespace LiveSplit.UI.Components
 
         public override void Dispose()
         {
-            try
-            {
+            if (Initialized)
                 discord.Dispose();
-            } catch { return; }
         }
     }
 }

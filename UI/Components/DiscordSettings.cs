@@ -1,4 +1,7 @@
-﻿using System;
+﻿using LiveSplit.Model;
+using LiveSplit.Model.Comparisons;
+using System;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -31,6 +34,8 @@ namespace LiveSplit.UI.Components
         public ElapsedTimeType DisplayElapsedTimeType { get; set; }
         public bool NRClearActivity { get; set; }
         public LayoutMode Mode { get; set; }
+        public LiveSplitState CurrentState { get; set; }
+        public string Comparison { get; set; }
 
         public DiscordSettings()
         {
@@ -42,6 +47,7 @@ namespace LiveSplit.UI.Components
             smallImageKey = "%delta In %split";
             DisplayElapsedTimeType = ElapsedTimeType.DisplayAttemptDuration;
             NRClearActivity = false;
+            Comparison = "Current Comparison";
 
             // Garbage
             EDetails = "%inherit";
@@ -81,11 +87,19 @@ namespace LiveSplit.UI.Components
             NRsmallImageText.DataBindings.Add("Text", this, "NRsmallImageKey");
 
             chkClear.DataBindings.Add("Checked", this, "NRClearActivity");
+            combComparison.DataBindings.Add("SelectedItem", this, "Comparison", false, DataSourceUpdateMode.OnPropertyChanged);
+            combBoxElapsed.DataBindings.Add("SelectedItem", this, "DisplayElapsedTimeType", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         void DiscordSettings_Load(object sender, EventArgs e)
         {
             combBoxElapsed.SelectedIndex = (int)DisplayElapsedTimeType;
+
+            combComparison.Items.Clear();
+            combComparison.Items.Add("Current Comparison");
+            combComparison.Items.AddRange(CurrentState.Run.Comparisons.ToArray());
+            if (!combComparison.Items.Contains(Comparison))
+                combComparison.Items.Add(Comparison);
         }
 
         void combBoxElapsed_SelectedIndexChanged(object sender, EventArgs e)
@@ -98,6 +112,11 @@ namespace LiveSplit.UI.Components
             var element = (XmlElement)node;
 
             Version version = SettingsHelper.ParseVersion(element["Version"]);
+
+            if (version >= new Version(1, 6))
+                Comparison = SettingsHelper.ParseString(element["Comparison"]);
+            else
+                Comparison = "Current Comparison";
 
             if (version >= new Version(1, 5))
                 DisplayElapsedTimeType = (ElapsedTimeType) SettingsHelper.ParseInt(element["DisplayElapsedTimeType"]);
@@ -143,12 +162,12 @@ namespace LiveSplit.UI.Components
 
         private int CreateSettingsNode(XmlDocument document, XmlElement parent)
         {
-            return SettingsHelper.CreateSetting(document, parent, "Version", "1.5") ^
+            return SettingsHelper.CreateSetting(document, parent, "Version", "1.6") ^
             SettingsHelper.CreateSetting(document, parent, "Details", Details) ^
             SettingsHelper.CreateSetting(document, parent, "State", State) ^
             SettingsHelper.CreateSetting(document, parent, "largeImageKey", largeImageKey) ^
             SettingsHelper.CreateSetting(document, parent, "smallImageKey", smallImageKey) ^
-            SettingsHelper.CreateSetting(document, parent, "DisplayElapsedTimeType", (int) DisplayElapsedTimeType) ^
+            SettingsHelper.CreateSetting(document, parent, "DisplayElapsedTimeType", (int)DisplayElapsedTimeType) ^
 
             SettingsHelper.CreateSetting(document, parent, "EDetails", EDetails) ^
             SettingsHelper.CreateSetting(document, parent, "EState", EState) ^
@@ -165,7 +184,9 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "NRlargeImageKey", NRlargeImageKey) ^
             SettingsHelper.CreateSetting(document, parent, "NRsmallImageKey", NRsmallImageKey) ^
 
-            SettingsHelper.CreateSetting(document, parent, "NRClearActivity", NRClearActivity);
+            SettingsHelper.CreateSetting(document, parent, "NRClearActivity", NRClearActivity) ^
+            
+            SettingsHelper.CreateSetting(document, parent, "Comparison", Comparison);
         }
     }
 }
