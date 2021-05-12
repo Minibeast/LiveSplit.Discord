@@ -78,8 +78,20 @@ namespace LiveSplit.UI.Components
             string SplitName = "";
 
             if (RunState == TimerPhase.Running || RunState == TimerPhase.Paused)
+            {
                 SplitName = state.CurrentSplit.Name;
+                // Want to do more with this, maybe more advanced formatting. For now, simple removal.
+                if (Settings.SubSplitCount)
+                {
+                    int bracket1 = SplitName.IndexOf("{");
+                    int bracket2 = SplitName.IndexOf("}");
+                    if (SplitName.Substring(0, 1) == "-")
+                        SplitName = SplitName.Substring(1);
 
+                    if (bracket1 != -1 && bracket2 != -1)
+                        SplitName = SplitName.Substring(bracket2 + 1);
+                }
+            }
 
             if (RunState != TimerPhase.NotRunning)
             {

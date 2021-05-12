@@ -33,6 +33,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.chkClear = new System.Windows.Forms.CheckBox();
             this.combBoxElapsed = new System.Windows.Forms.ComboBox();
+            this.combComparison = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.chkSubSplits = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.largeText = new System.Windows.Forms.TextBox();
@@ -74,8 +77,6 @@
             this.NRlargeText = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.NRsmallText = new System.Windows.Forms.TextBox();
-            this.combComparison = new System.Windows.Forms.ComboBox();
-            this.label18 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -93,30 +94,32 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.label5, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.chkClear, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.combBoxElapsed, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.combComparison, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label18, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.chkClear, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.combBoxElapsed, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.combComparison, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label18, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.chkSubSplits, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 155F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 114F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(462, 535);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(440, 569);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(103, 270);
+            this.label5.Location = new System.Drawing.Point(103, 301);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(356, 260);
+            this.label5.Size = new System.Drawing.Size(334, 260);
             this.label5.TabIndex = 10;
             this.label5.Text = resources.GetString("label5.Text");
             // 
@@ -124,10 +127,10 @@
             // 
             this.chkClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.chkClear.AutoSize = true;
-            this.chkClear.Location = new System.Drawing.Point(107, 167);
+            this.chkClear.Location = new System.Drawing.Point(107, 203);
             this.chkClear.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
             this.chkClear.Name = "chkClear";
-            this.chkClear.Size = new System.Drawing.Size(352, 17);
+            this.chkClear.Size = new System.Drawing.Size(330, 17);
             this.chkClear.TabIndex = 11;
             this.chkClear.Text = "Clear Activity if Not Running";
             this.chkClear.UseVisualStyleBackColor = true;
@@ -140,11 +143,42 @@
             "Do Not Display Elapsed Time",
             "Display Time Elapsed from Attempt Start",
             "Display Time Elapsed from Attempt Start w/ Offset"});
-            this.combBoxElapsed.Location = new System.Drawing.Point(103, 233);
+            this.combBoxElapsed.Location = new System.Drawing.Point(103, 265);
             this.combBoxElapsed.Name = "combBoxElapsed";
-            this.combBoxElapsed.Size = new System.Drawing.Size(352, 21);
+            this.combBoxElapsed.Size = new System.Drawing.Size(334, 21);
             this.combBoxElapsed.TabIndex = 12;
             this.combBoxElapsed.SelectedIndexChanged += new System.EventHandler(this.combBoxElapsed_SelectedIndexChanged);
+            // 
+            // combComparison
+            // 
+            this.combComparison.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combComparison.FormattingEnabled = true;
+            this.combComparison.Location = new System.Drawing.Point(103, 232);
+            this.combComparison.Name = "combComparison";
+            this.combComparison.Size = new System.Drawing.Size(334, 21);
+            this.combComparison.TabIndex = 13;
+            // 
+            // label18
+            // 
+            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(3, 239);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(94, 13);
+            this.label18.TabIndex = 14;
+            this.label18.Text = "Comparison:";
+            // 
+            // chkSubSplits
+            // 
+            this.chkSubSplits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkSubSplits.AutoSize = true;
+            this.chkSubSplits.Location = new System.Drawing.Point(107, 168);
+            this.chkSubSplits.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkSubSplits.Name = "chkSubSplits";
+            this.chkSubSplits.Size = new System.Drawing.Size(330, 17);
+            this.chkSubSplits.TabIndex = 15;
+            this.chkSubSplits.Text = "Modify split name to remove SubSplit syntax";
+            this.chkSubSplits.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -171,7 +205,7 @@
             this.largeText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.largeText.Location = new System.Drawing.Point(103, 4);
             this.largeText.Name = "largeText";
-            this.largeText.Size = new System.Drawing.Size(348, 20);
+            this.largeText.Size = new System.Drawing.Size(327, 20);
             this.largeText.TabIndex = 0;
             // 
             // label2
@@ -189,7 +223,7 @@
             this.smallText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.smallText.Location = new System.Drawing.Point(103, 33);
             this.smallText.Name = "smallText";
-            this.smallText.Size = new System.Drawing.Size(348, 20);
+            this.smallText.Size = new System.Drawing.Size(327, 20);
             this.smallText.TabIndex = 2;
             // 
             // largeImageText
@@ -197,7 +231,7 @@
             this.largeImageText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.largeImageText.Location = new System.Drawing.Point(103, 62);
             this.largeImageText.Name = "largeImageText";
-            this.largeImageText.Size = new System.Drawing.Size(348, 20);
+            this.largeImageText.Size = new System.Drawing.Size(327, 20);
             this.largeImageText.TabIndex = 5;
             // 
             // smallImageText
@@ -205,7 +239,7 @@
             this.smallImageText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.smallImageText.Location = new System.Drawing.Point(103, 98);
             this.smallImageText.Name = "smallImageText";
-            this.smallImageText.Size = new System.Drawing.Size(348, 20);
+            this.smallImageText.Size = new System.Drawing.Size(327, 20);
             this.smallImageText.TabIndex = 7;
             // 
             // tabControl1
@@ -217,7 +251,7 @@
             this.tabControl1.Location = new System.Drawing.Point(7, 7);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(462, 156);
+            this.tabControl1.Size = new System.Drawing.Size(447, 156);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -226,7 +260,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(454, 130);
+            this.tabPage1.Size = new System.Drawing.Size(439, 130);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Running";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -251,7 +285,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(454, 130);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(433, 130);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // label6
@@ -270,7 +304,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(454, 130);
+            this.tabPage2.Size = new System.Drawing.Size(439, 130);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Ended";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -295,7 +329,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(454, 130);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(433, 130);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
             // label1
@@ -323,7 +357,7 @@
             this.EsmallImageText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.EsmallImageText.Location = new System.Drawing.Point(103, 98);
             this.EsmallImageText.Name = "EsmallImageText";
-            this.EsmallImageText.Size = new System.Drawing.Size(348, 20);
+            this.EsmallImageText.Size = new System.Drawing.Size(327, 20);
             this.EsmallImageText.TabIndex = 7;
             // 
             // label8
@@ -341,7 +375,7 @@
             this.ElargeImageText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.ElargeImageText.Location = new System.Drawing.Point(103, 62);
             this.ElargeImageText.Name = "ElargeImageText";
-            this.ElargeImageText.Size = new System.Drawing.Size(348, 20);
+            this.ElargeImageText.Size = new System.Drawing.Size(327, 20);
             this.ElargeImageText.TabIndex = 5;
             // 
             // ElargeText
@@ -349,7 +383,7 @@
             this.ElargeText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.ElargeText.Location = new System.Drawing.Point(103, 4);
             this.ElargeText.Name = "ElargeText";
-            this.ElargeText.Size = new System.Drawing.Size(348, 20);
+            this.ElargeText.Size = new System.Drawing.Size(327, 20);
             this.ElargeText.TabIndex = 0;
             // 
             // label9
@@ -367,7 +401,7 @@
             this.EsmallText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.EsmallText.Location = new System.Drawing.Point(103, 33);
             this.EsmallText.Name = "EsmallText";
-            this.EsmallText.Size = new System.Drawing.Size(348, 20);
+            this.EsmallText.Size = new System.Drawing.Size(327, 20);
             this.EsmallText.TabIndex = 2;
             // 
             // tabPage3
@@ -375,7 +409,7 @@
             this.tabPage3.Controls.Add(this.tableLayoutPanel4);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(454, 130);
+            this.tabPage3.Size = new System.Drawing.Size(439, 130);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Paused";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -400,7 +434,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(454, 130);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(433, 130);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
             // label10
@@ -428,7 +462,7 @@
             this.PsmallImageText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.PsmallImageText.Location = new System.Drawing.Point(103, 98);
             this.PsmallImageText.Name = "PsmallImageText";
-            this.PsmallImageText.Size = new System.Drawing.Size(348, 20);
+            this.PsmallImageText.Size = new System.Drawing.Size(327, 20);
             this.PsmallImageText.TabIndex = 7;
             // 
             // label12
@@ -446,7 +480,7 @@
             this.PlargeImageText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.PlargeImageText.Location = new System.Drawing.Point(103, 62);
             this.PlargeImageText.Name = "PlargeImageText";
-            this.PlargeImageText.Size = new System.Drawing.Size(348, 20);
+            this.PlargeImageText.Size = new System.Drawing.Size(327, 20);
             this.PlargeImageText.TabIndex = 5;
             // 
             // PlargeText
@@ -454,7 +488,7 @@
             this.PlargeText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.PlargeText.Location = new System.Drawing.Point(103, 4);
             this.PlargeText.Name = "PlargeText";
-            this.PlargeText.Size = new System.Drawing.Size(348, 20);
+            this.PlargeText.Size = new System.Drawing.Size(327, 20);
             this.PlargeText.TabIndex = 0;
             // 
             // label13
@@ -472,7 +506,7 @@
             this.PsmallText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.PsmallText.Location = new System.Drawing.Point(103, 33);
             this.PsmallText.Name = "PsmallText";
-            this.PsmallText.Size = new System.Drawing.Size(348, 20);
+            this.PsmallText.Size = new System.Drawing.Size(327, 20);
             this.PsmallText.TabIndex = 2;
             // 
             // tabPage4
@@ -480,7 +514,7 @@
             this.tabPage4.Controls.Add(this.tableLayoutPanel5);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(454, 130);
+            this.tabPage4.Size = new System.Drawing.Size(439, 130);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Not Running";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -505,7 +539,7 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(454, 130);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(433, 130);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
             // label14
@@ -533,7 +567,7 @@
             this.NRsmallImageText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NRsmallImageText.Location = new System.Drawing.Point(103, 98);
             this.NRsmallImageText.Name = "NRsmallImageText";
-            this.NRsmallImageText.Size = new System.Drawing.Size(348, 20);
+            this.NRsmallImageText.Size = new System.Drawing.Size(327, 20);
             this.NRsmallImageText.TabIndex = 7;
             // 
             // label16
@@ -551,7 +585,7 @@
             this.NRlargeImageText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NRlargeImageText.Location = new System.Drawing.Point(103, 62);
             this.NRlargeImageText.Name = "NRlargeImageText";
-            this.NRlargeImageText.Size = new System.Drawing.Size(348, 20);
+            this.NRlargeImageText.Size = new System.Drawing.Size(327, 20);
             this.NRlargeImageText.TabIndex = 5;
             // 
             // NRlargeText
@@ -559,7 +593,7 @@
             this.NRlargeText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NRlargeText.Location = new System.Drawing.Point(103, 4);
             this.NRlargeText.Name = "NRlargeText";
-            this.NRlargeText.Size = new System.Drawing.Size(348, 20);
+            this.NRlargeText.Size = new System.Drawing.Size(327, 20);
             this.NRlargeText.TabIndex = 0;
             // 
             // label17
@@ -577,27 +611,8 @@
             this.NRsmallText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NRsmallText.Location = new System.Drawing.Point(103, 33);
             this.NRsmallText.Name = "NRsmallText";
-            this.NRsmallText.Size = new System.Drawing.Size(348, 20);
+            this.NRsmallText.Size = new System.Drawing.Size(327, 20);
             this.NRsmallText.TabIndex = 2;
-            // 
-            // combComparison
-            // 
-            this.combComparison.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combComparison.FormattingEnabled = true;
-            this.combComparison.Location = new System.Drawing.Point(103, 199);
-            this.combComparison.Name = "combComparison";
-            this.combComparison.Size = new System.Drawing.Size(352, 21);
-            this.combComparison.TabIndex = 13;
-            // 
-            // label18
-            // 
-            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(3, 206);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(94, 13);
-            this.label18.TabIndex = 14;
-            this.label18.Text = "Comparison:";
             // 
             // DiscordSettings
             // 
@@ -607,7 +622,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DiscordSettings";
             this.Padding = new System.Windows.Forms.Padding(7);
-            this.Size = new System.Drawing.Size(476, 549);
+            this.Size = new System.Drawing.Size(454, 583);
             this.Load += new System.EventHandler(this.DiscordSettings_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -677,5 +692,6 @@
         private System.Windows.Forms.ComboBox combBoxElapsed;
         private System.Windows.Forms.ComboBox combComparison;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.CheckBox chkSubSplits;
     }
 }

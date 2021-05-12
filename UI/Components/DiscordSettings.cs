@@ -1,5 +1,4 @@
 ﻿using LiveSplit.Model;
-using LiveSplit.Model.Comparisons;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -33,6 +32,7 @@ namespace LiveSplit.UI.Components
 
         public ElapsedTimeType DisplayElapsedTimeType { get; set; }
         public bool NRClearActivity { get; set; }
+        public bool SubSplitCount { get; set; }
         public LayoutMode Mode { get; set; }
         public LiveSplitState CurrentState { get; set; }
         public string Comparison { get; set; }
@@ -47,6 +47,7 @@ namespace LiveSplit.UI.Components
             smallImageKey = "%delta In %split";
             DisplayElapsedTimeType = ElapsedTimeType.DisplayAttemptDuration;
             NRClearActivity = false;
+            SubSplitCount = false;
             Comparison = "Current Comparison";
 
             // Garbage
@@ -87,6 +88,7 @@ namespace LiveSplit.UI.Components
             NRsmallImageText.DataBindings.Add("Text", this, "NRsmallImageKey");
 
             chkClear.DataBindings.Add("Checked", this, "NRClearActivity");
+            chkSubSplits.DataBindings.Add("Checked", this, "SubSplitCount");
             combComparison.DataBindings.Add("SelectedItem", this, "Comparison", false, DataSourceUpdateMode.OnPropertyChanged);
             combBoxElapsed.DataBindings.Add("SelectedItem", this, "DisplayElapsedTimeType", false, DataSourceUpdateMode.OnPropertyChanged);
         }
@@ -114,10 +116,15 @@ namespace LiveSplit.UI.Components
             Version version = SettingsHelper.ParseVersion(element["Version"]);
 
             if (version >= new Version(1, 6))
+            {
                 Comparison = SettingsHelper.ParseString(element["Comparison"]);
+                SubSplitCount = SettingsHelper.ParseBool(element["SubSplitCount"]);
+            }
             else
+            {
                 Comparison = "Current Comparison";
-
+                SubSplitCount = false;
+            }
             if (version >= new Version(1, 5))
                 DisplayElapsedTimeType = (ElapsedTimeType) SettingsHelper.ParseInt(element["DisplayElapsedTimeType"]);
             else
@@ -185,6 +192,7 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "NRsmallImageKey", NRsmallImageKey) ^
 
             SettingsHelper.CreateSetting(document, parent, "NRClearActivity", NRClearActivity) ^
+            SettingsHelper.CreateSetting(document, parent, "SubSplitCount", SubSplitCount) ^
             
             SettingsHelper.CreateSetting(document, parent, "Comparison", Comparison);
         }
