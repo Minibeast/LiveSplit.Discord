@@ -1,4 +1,5 @@
 ﻿using LiveSplit.Model;
+using LiveSplit.TimeFormatters;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -37,6 +38,9 @@ namespace LiveSplit.UI.Components
         public LiveSplitState CurrentState { get; set; }
         public string Comparison { get; set; }
 
+        public TimeAccuracy Accuracy { get; set; }
+        public bool DropDecimals { get; set; }
+
         public DiscordSettings()
         {
             InitializeComponent();
@@ -48,6 +52,8 @@ namespace LiveSplit.UI.Components
             DisplayElapsedTimeType = ElapsedTimeType.DisplayAttemptDuration;
             NRClearActivity = false;
             SubSplitCount = false;
+            Accuracy = TimeAccuracy.Tenths;
+            DropDecimals = true;
             Comparison = "Current Comparison";
 
             // Garbage
@@ -91,6 +97,7 @@ namespace LiveSplit.UI.Components
             chkSubSplits.DataBindings.Add("Checked", this, "SubSplitCount");
             combComparison.DataBindings.Add("SelectedItem", this, "Comparison", false, DataSourceUpdateMode.OnPropertyChanged);
             combBoxElapsed.DataBindings.Add("SelectedItem", this, "DisplayElapsedTimeType", false, DataSourceUpdateMode.OnPropertyChanged);
+            chkDropDecimals.DataBindings.Add("Checked", this, "DropDecimals", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         void DiscordSettings_Load(object sender, EventArgs e)
@@ -102,11 +109,35 @@ namespace LiveSplit.UI.Components
             combComparison.Items.AddRange(CurrentState.Run.Comparisons.ToArray());
             if (!combComparison.Items.Contains(Comparison))
                 combComparison.Items.Add(Comparison);
+
+            rdoSeconds.Checked = Accuracy == TimeAccuracy.Seconds;
+            rdoTenths.Checked = Accuracy == TimeAccuracy.Tenths;
+            rdoHundredths.Checked = Accuracy == TimeAccuracy.Hundredths;
         }
 
         void combBoxElapsed_SelectedIndexChanged(object sender, EventArgs e)
         {
             DisplayElapsedTimeType = (ElapsedTimeType)combBoxElapsed.SelectedIndex;
+        }
+
+        void rdoHundredths_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateAccuracy();
+        }
+
+        void rdoSeconds_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateAccuracy();
+        }
+
+        void UpdateAccuracy()
+        {
+            if (rdoSeconds.Checked)
+                Accuracy = TimeAccuracy.Seconds;
+            else if (rdoTenths.Checked)
+                Accuracy = TimeAccuracy.Tenths;
+            else
+                Accuracy = TimeAccuracy.Hundredths;
         }
 
         public void SetSettings(XmlNode node)
@@ -119,11 +150,15 @@ namespace LiveSplit.UI.Components
             {
                 Comparison = SettingsHelper.ParseString(element["Comparison"]);
                 SubSplitCount = SettingsHelper.ParseBool(element["SubSplitCount"]);
+                DropDecimals = SettingsHelper.ParseBool(element["DropDecimals"]);
+                Accuracy = SettingsHelper.ParseEnum<TimeAccuracy>(element["Accuracy"]);
             }
             else
             {
                 Comparison = "Current Comparison";
                 SubSplitCount = false;
+                DropDecimals = true;
+                Accuracy = TimeAccuracy.Tenths;
             }
             if (version >= new Version(1, 5))
                 DisplayElapsedTimeType = (ElapsedTimeType) SettingsHelper.ParseInt(element["DisplayElapsedTimeType"]);
@@ -193,7 +228,10 @@ namespace LiveSplit.UI.Components
 
             SettingsHelper.CreateSetting(document, parent, "NRClearActivity", NRClearActivity) ^
             SettingsHelper.CreateSetting(document, parent, "SubSplitCount", SubSplitCount) ^
-            
+
+            SettingsHelper.CreateSetting(document, parent, "Accuracy", Accuracy) ^
+            SettingsHelper.CreateSetting(document, parent, "DropDecimals" , DropDecimals) ^
+
             SettingsHelper.CreateSetting(document, parent, "Comparison", Comparison);
         }
     }

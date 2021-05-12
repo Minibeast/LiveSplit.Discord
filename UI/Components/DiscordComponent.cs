@@ -3,6 +3,7 @@ using System.Xml;
 using System.Windows.Forms;
 using LiveSplit.Model;
 using LiveSplit.Model.Comparisons;
+using LiveSplit.TimeFormatters;
 using Discord;
 
 namespace LiveSplit.UI.Components
@@ -14,6 +15,7 @@ namespace LiveSplit.UI.Components
         public Discord.Discord discord;
         public ActivityManager activityManager;
         private LiveSplitState State { get; set; }
+        private DiscordComponentFormatter Formatter { get; set; }
         private bool Initialized;
 
         private DiscordSettings Settings { get; set; }
@@ -35,6 +37,8 @@ namespace LiveSplit.UI.Components
             {
                 CurrentState = State
             };
+
+            Formatter = new DiscordComponentFormatter(Settings.Accuracy, Settings.DropDecimals);
             state.ComparisonRenamed += state_ComparisonRenamed;
         }
 
@@ -72,9 +76,7 @@ namespace LiveSplit.UI.Components
             }
 
             string RunningImage = "gray_square";
-            string PlusMinus = "";
-            string decimalFormat = @"\.f";
-            string timestring = "";
+            var timestring = "";
             string SplitName = "";
 
             if (RunState == TimerPhase.Running || RunState == TimerPhase.Paused)
@@ -100,21 +102,10 @@ namespace LiveSplit.UI.Components
                     int SplitIndex = (RunState == TimerPhase.Ended ? state.CurrentSplitIndex - 1 : state.CurrentSplitIndex);
 
                     delta = LiveSplitStateHelper.GetLastDelta(state, SplitIndex, CurrentComparison, state.CurrentTimingMethod);
-
-                    if (delta != null && delta.Value > TimeSpan.Zero)
-                        PlusMinus = "+";
-                    else
-                        PlusMinus = "-";
+                    timestring = Formatter.Format(delta);
                 }
-                if (state.CurrentSplitIndex <= 0)
-                    timestring = "";
-                else if (delta != null && delta.Value.Minutes == 0)
-                    timestring = PlusMinus + delta.Value.ToString(@"ss" + decimalFormat) + " ";
-                else if (delta != null)
-                    timestring = PlusMinus + delta.Value.ToString(@"mm\:ss" + decimalFormat) + " ";
-
-                if (RunState != TimerPhase.Paused)
-                    RunningImage = (PlusMinus == "+" ? "red_square" : "green_square");
+                if (RunState != TimerPhase.Paused && timestring.Length > 0)
+                    RunningImage = (timestring.Substring(0, 1) == "+" ? "red_square" : "green_square");
             }
 
             long StartTime = 0;
