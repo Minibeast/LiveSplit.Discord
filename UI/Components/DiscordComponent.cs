@@ -54,6 +54,9 @@ namespace LiveSplit.UI.Components
 
         public void UpdatePresence(LiveSplitState state)
         {
+            Formatter.Accuracy = Settings.Accuracy;
+            Formatter.DropDecimals = Settings.DropDecimals;
+
             string CurrentComparison = Settings.Comparison;
             if (CurrentComparison == "Current Comparison")
                 CurrentComparison = state.CurrentComparison;
