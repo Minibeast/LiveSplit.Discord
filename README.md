@@ -1,13 +1,9 @@
 # LiveSplit.Discord
-A LiveSplit Component that shows the current run title and run category in Discord using Rich Presence.
+A LiveSplit Component that displays the current run's information in Discord using Rich Presence.
 
 ## Download and Install
-Go to the releases tab and download the latest version's `LiveSplit.Discord.dll` file.
+Go to the releases tab and download the lastest version's ZIP file that matches for your operating system (it should be 64 bit, so download `Release_64.zip`).
 
-Download the discord_game_sdk that matches for your operating system (it should be 64 bit, so download `discord_game_sdk_64.dll`)
+Unzip the Release archive and drag the files into LiveSplit's `Components` folder.
 
-Drag both the Discord sdk dll and the LiveSplit.Discord dll into LiveSplit's `Components` folder
-
-Rename the discord_game_sdk_(64 or 32).dll file to `discord_game_sdk.dll`.
-
-Launch LiveSplit, go to edit layout, and add the component (it'll be under the "Other" category)
+Launch LiveSplit, go to edit layout, and add the component (it'll be under the "Other" category).

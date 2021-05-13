@@ -86,14 +86,14 @@ namespace LiveSplit.UI.Components
             {
                 SplitName = state.CurrentSplit.Name;
                 // Want to do more with this, maybe more advanced formatting. For now, simple removal.
-                if (Settings.SubSplitCount)
+                if (Settings.SubSplitCount && SplitName.Length > 0)
                 {
                     int bracket1 = SplitName.IndexOf("{");
                     int bracket2 = SplitName.IndexOf("}");
                     if (SplitName.Substring(0, 1) == "-")
                         SplitName = SplitName.Substring(1);
 
-                    if (bracket1 != -1 && bracket2 != -1)
+                    if ((bracket1 != -1 && bracket2 != -1) && SplitName.Length > bracket2)
                         SplitName = SplitName.Substring(bracket2 + 1);
                 }
             }
