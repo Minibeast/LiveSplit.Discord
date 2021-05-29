@@ -164,7 +164,10 @@ namespace LiveSplit.UI.Components
                         else if (RunState == TimerPhase.Ended)
                         {
                             var time = state.CurrentTime[state.CurrentTimingMethod];
-                            return "Ended. Final Time: " + time.Value.ToString(@"hh\:mm\:ss");
+                            if (time.HasValue)
+                                return "Ended. Final Time: " + time.Value.ToString(@"hh\:mm\:ss");
+                            else
+                                return "Ended.";
                         }
                         else if (RunState == TimerPhase.Paused)
                             return "Paused";
@@ -187,7 +190,10 @@ namespace LiveSplit.UI.Components
                 text = text.Replace("%attempts", state.Run.AttemptCount.ToString());
                 text = text.Replace("%comparison", CurrentComparison);
                 var nottime = state.CurrentTime[state.CurrentTimingMethod];
-                text = text.Replace("%time", nottime.Value.ToString(@"hh\:mm\:ss"));
+                if (nottime.HasValue)
+                    text = text.Replace("%time", nottime.Value.ToString(@"hh\:mm\:ss"));
+                else
+                    text = text.Replace("%time", "");
 
 
                 return text;
