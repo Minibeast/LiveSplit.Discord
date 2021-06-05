@@ -14,7 +14,7 @@ namespace LiveSplit.TimeFormatters
         {
             var formatter = new RegularTimeFormatter(Accuracy);
             if (time == null)
-                return "";
+                return "-";
             else
                 return formatter.Format(time);
         }

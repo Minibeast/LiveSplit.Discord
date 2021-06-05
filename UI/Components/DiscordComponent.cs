@@ -282,16 +282,13 @@ namespace LiveSplit.UI.Components
             {
                 if (SearchText.IndexOf("%delta_") != -1)
                 {
-                    if (SearchText.IndexOf("%delta_cur") != -1)
-                        return SearchText.Replace("%delta_cur", GetDelta(state.CurrentComparison));
+                    SearchText = SearchText.Replace("%delta_cur", GetDelta(state.CurrentComparison));
 
                     foreach (KeyValuePair<string, string> deltaCheck in ComparisonDict)
-                    {
-                        if (SearchText.IndexOf(deltaCheck.Key) != -1)
-                            return SearchText.Replace(deltaCheck.Key, GetDelta(deltaCheck.Value));
-                    }
+                        SearchText = SearchText.Replace(deltaCheck.Key, GetDelta(deltaCheck.Value));
                 }
-                return SearchText.Replace("%delta", GetDelta(GlobalComparison));
+                SearchText = SearchText.Replace("%delta", GetDelta(GlobalComparison));
+                return SearchText;
             }
         }
 

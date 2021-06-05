@@ -21,7 +21,7 @@ The customization options offered in LiveSplit.Discord require some explanation 
 
 `comparison` - Displays the name of the Comparison selected in the "Global Comparison" option (See Global Comparison).
 
-`time` - Displays the current time of the run (Only intended to be used for when the run has finished, use "Elapsed Time" if you wish to have the time displayed during a run.
+`time` - Displays the current time of the run (Only intended to be used for when the run has finished, use "Elapsed Time" if you wish to have the time displayed during a run).
 
 `inherit` - Inherits the "Running" text (See Inheriting).
 
