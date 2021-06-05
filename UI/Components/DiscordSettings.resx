@@ -117,26 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Guide:
-
-%game = The name of the Game
-%category = The name of the Category
-%category_detailed = The Category name with Variables
-%attempts = The attempt counter in LiveSplit
-%delta = The last split delta on your current comparison
-%split = The name of the current split you're on
-%comparison = The name of the comparison selected
-%time = The time of the run
-
-%inherit = Inherits the "Running" text
-
-Important Note:
-
-If the "None" Comparison is selected from the dropdown,
-the small image will not be displayed.
-
-Switching to "None" with "Current Comparison" selected
-will not have this effect.</value>
-  </data>
 </root>

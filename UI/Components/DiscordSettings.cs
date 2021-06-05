@@ -3,6 +3,7 @@ using LiveSplit.TimeFormatters;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using System.Diagnostics;
 using System.Xml;
 
 namespace LiveSplit.UI.Components
@@ -233,6 +234,11 @@ namespace LiveSplit.UI.Components
             SettingsHelper.CreateSetting(document, parent, "DropDecimals" , DropDecimals) ^
 
             SettingsHelper.CreateSetting(document, parent, "Comparison", Comparison);
+        }
+
+        private void syntaxLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/Minibeast/LiveSplit.Discord/blob/master/SYNTAX.md");
         }
     }
 }

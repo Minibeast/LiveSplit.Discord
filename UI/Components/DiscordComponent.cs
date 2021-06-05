@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Xml;
+using System.Linq;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using LiveSplit.Model;
 using LiveSplit.Model.Comparisons;
 using LiveSplit.TimeFormatters;
@@ -18,6 +20,8 @@ namespace LiveSplit.UI.Components
         private DiscordComponentFormatter Formatter { get; set; }
         private bool Initialized;
 
+        private Dictionary<string, string> ComparisonDict;
+
         private DiscordSettings Settings { get; set; }
 
         public DiscordComponent(LiveSplitState state)
@@ -27,7 +31,8 @@ namespace LiveSplit.UI.Components
                 discord = new Discord.Discord(763054362107838504, (UInt64)CreateFlags.Default);
                 activityManager = discord.GetActivityManager();
                 Initialized = true;
-            } catch
+            }
+            catch
             {
                 MessageBox.Show("Something went wrong when initializing Discord. Make sure the client is open!" + Environment.NewLine + "LiveSplit will continue running as normal.");
                 Initialized = false;
@@ -40,6 +45,18 @@ namespace LiveSplit.UI.Components
 
             Formatter = new DiscordComponentFormatter(Settings.Accuracy, Settings.DropDecimals);
             state.ComparisonRenamed += state_ComparisonRenamed;
+
+            ComparisonDict = new Dictionary<string, string>()
+            {
+                { "%delta_pb", "Personal Best" },
+                { "%delta_bst", BestSplitTimesComparisonGenerator.ComparisonName },
+                { "%delta_best", BestSegmentsComparisonGenerator.ComparisonName },
+                { "%delta_avg", AverageSegmentsComparisonGenerator.ComparisonName },
+                { "%delta_med", MedianSegmentsComparisonGenerator.ComparisonName },
+                { "%delta_worst", WorstSegmentsComparisonGenerator.ComparisonName },
+                { "%delta_bal", PercentileComparisonGenerator.ComparisonName },
+                { "%delta_latest", LatestRunComparisonGenerator.ComparisonName }
+            };
         }
 
         void state_ComparisonRenamed(object sender, EventArgs e)
@@ -65,6 +82,7 @@ namespace LiveSplit.UI.Components
             string CategoryName = state.Run.CategoryName;
             string DetailedCategoryName = state.Run.GetExtendedCategoryName();
             string GameName = state.Run.GameName;
+            string ShortGameName = state.Run.GameName.GetAbbreviations().Last();
 
             TimeSpan? delta = TimeSpan.Zero;
 
@@ -79,7 +97,6 @@ namespace LiveSplit.UI.Components
             }
 
             string RunningImage = "gray_square";
-            var timestring = "";
             string SplitName = "";
 
             if (RunState == TimerPhase.Running || RunState == TimerPhase.Paused)
@@ -100,15 +117,12 @@ namespace LiveSplit.UI.Components
 
             if (RunState != TimerPhase.NotRunning)
             {
+                var timestring = "";
                 if (state.CurrentSplitIndex > 0)
-                {
-                    int SplitIndex = (RunState == TimerPhase.Ended ? state.CurrentSplitIndex - 1 : state.CurrentSplitIndex);
+                    GetDelta(CurrentComparison);
 
-                    delta = LiveSplitStateHelper.GetLastDelta(state, SplitIndex, CurrentComparison, state.CurrentTimingMethod);
-                    timestring = Formatter.Format(delta);
-                }
                 if (RunState != TimerPhase.Paused && timestring.Length > 0)
-                    RunningImage = (timestring.Substring(0, 1) == "+" ? "red_square" : "green_square");
+                    RunningImage = timestring.Substring(0, 1) == "+" ? "red_square" : "green_square";
             }
 
             long StartTime = 0;
@@ -120,10 +134,10 @@ namespace LiveSplit.UI.Components
                 StartTime = (long)(state.AttemptStarted - sTime).TotalSeconds;
 
                 if (Settings.DisplayElapsedTimeType == ElapsedTimeType.DisplayADwOffset)
-                    StartTime -= (long) state.Run.Offset.TotalSeconds;
+                    StartTime -= (long)state.Run.Offset.TotalSeconds;
             }
             else if (Settings.DisplayElapsedTimeType == ElapsedTimeType.DisplayGameTime)
-                StartTime = DateTime.UtcNow.Ticks - (long) state.CurrentTime[state.CurrentTimingMethod].Value.TotalSeconds;
+                StartTime = DateTime.UtcNow.Ticks - (long)state.CurrentTime[state.CurrentTimingMethod].Value.TotalSeconds;
 
             var activity = new Activity
             {
@@ -173,17 +187,18 @@ namespace LiveSplit.UI.Components
                             return "Paused";
                         else
                         {
-                            text = text.Replace("%delta", timestring);
+                            text = FindDelta(text);
                             text = text.Replace("%split", SplitName);
                         }
                     }
                 }
                 else
                 {
-                    text = text.Replace("%delta", timestring);
+                    text = FindDelta(text);
                     text = text.Replace("%split", SplitName);
                 }
 
+                text = text.Replace("%game_short", ShortGameName);
                 text = text.Replace("%game", GameName);
                 text = text.Replace("%category_detailed", DetailedCategoryName);
                 text = text.Replace("%category", CategoryName);
@@ -247,7 +262,7 @@ namespace LiveSplit.UI.Components
                         return Settings.EsmallImageKey;
                 }
 
-                else 
+                else
                 {
                     if (item == "Details")
                         return Settings.PDetails;
@@ -261,6 +276,31 @@ namespace LiveSplit.UI.Components
                     else
                         return Settings.PsmallImageKey;
                 }
+            }
+
+            string GetDelta(string Comparison)
+            {
+                int SplitIndex = (RunState == TimerPhase.Ended ? state.CurrentSplitIndex - 1 : state.CurrentSplitIndex);
+
+                delta = LiveSplitStateHelper.GetLastDelta(state, SplitIndex, Comparison, state.CurrentTimingMethod);
+
+                return Formatter.Format(delta);
+            }
+
+            string FindDelta(string SearchText)
+            {
+                if (SearchText.IndexOf("%delta_") != -1)
+                {
+                    if (SearchText.IndexOf("%delta_cur") != -1)
+                        return SearchText.Replace("%delta_cur", GetDelta(state.CurrentComparison));
+
+                    foreach (KeyValuePair<string, string> deltaCheck in ComparisonDict)
+                    {
+                        if (SearchText.IndexOf(deltaCheck.Key) != -1)
+                            return SearchText.Replace(deltaCheck.Key, GetDelta(deltaCheck.Value));
+                    }
+                }
+                return SearchText.Replace("%delta", GetDelta(CurrentComparison));
             }
         }
 

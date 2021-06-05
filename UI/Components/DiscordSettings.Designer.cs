@@ -28,13 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DiscordSettings));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label5 = new System.Windows.Forms.Label();
             this.chkClear = new System.Windows.Forms.CheckBox();
             this.combBoxElapsed = new System.Windows.Forms.ComboBox();
-            this.combComparison = new System.Windows.Forms.ComboBox();
             this.chkSubSplits = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.rdoSeconds = new System.Windows.Forms.RadioButton();
+            this.chkDropDecimals = new System.Windows.Forms.CheckBox();
+            this.rdoTenths = new System.Windows.Forms.RadioButton();
+            this.rdoHundredths = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.combComparison = new System.Windows.Forms.ComboBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.largeText = new System.Windows.Forms.TextBox();
@@ -76,15 +84,11 @@
             this.NRlargeText = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.NRsmallText = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.chkDropDecimals = new System.Windows.Forms.CheckBox();
-            this.rdoSeconds = new System.Windows.Forms.RadioButton();
-            this.rdoTenths = new System.Windows.Forms.RadioButton();
-            this.rdoHundredths = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -94,10 +98,6 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.tableLayoutPanel6.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -110,30 +110,21 @@
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.linkLabel1, 0, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 98F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(440, 725);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(440, 491);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 450);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(434, 260);
-            this.label5.TabIndex = 10;
-            this.label5.Text = resources.GetString("label5.Text");
             // 
             // chkClear
             // 
@@ -162,15 +153,6 @@
             this.combBoxElapsed.TabIndex = 12;
             this.combBoxElapsed.SelectedIndexChanged += new System.EventHandler(this.combBoxElapsed_SelectedIndexChanged);
             // 
-            // combComparison
-            // 
-            this.combComparison.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combComparison.FormattingEnabled = true;
-            this.combComparison.Location = new System.Drawing.Point(3, 3);
-            this.combComparison.Name = "combComparison";
-            this.combComparison.Size = new System.Drawing.Size(424, 21);
-            this.combComparison.TabIndex = 13;
-            // 
             // chkSubSplits
             // 
             this.chkSubSplits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -182,6 +164,139 @@
             this.chkSubSplits.TabIndex = 15;
             this.chkSubSplits.Text = "Modify split name to remove SubSplit syntax";
             this.chkSubSplits.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 446);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(434, 13);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "See SYNTAX.md in the GitHub repository for syntax information.";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tableLayoutPanel6);
+            this.groupBox1.Location = new System.Drawing.Point(3, 340);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(431, 90);
+            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Delta Accuracy";
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 3;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel6.Controls.Add(this.rdoSeconds, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this.chkDropDecimals, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.rdoTenths, 1, 1);
+            this.tableLayoutPanel6.Controls.Add(this.rdoHundredths, 2, 1);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(6, 19);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 2;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(419, 65);
+            this.tableLayoutPanel6.TabIndex = 0;
+            // 
+            // rdoSeconds
+            // 
+            this.rdoSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.rdoSeconds.AutoSize = true;
+            this.rdoSeconds.Location = new System.Drawing.Point(3, 38);
+            this.rdoSeconds.Name = "rdoSeconds";
+            this.rdoSeconds.Size = new System.Drawing.Size(133, 17);
+            this.rdoSeconds.TabIndex = 5;
+            this.rdoSeconds.TabStop = true;
+            this.rdoSeconds.Text = "Seconds";
+            this.rdoSeconds.UseVisualStyleBackColor = true;
+            this.rdoSeconds.CheckedChanged += new System.EventHandler(this.rdoSeconds_CheckedChanged);
+            // 
+            // chkDropDecimals
+            // 
+            this.chkDropDecimals.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDropDecimals.AutoSize = true;
+            this.tableLayoutPanel6.SetColumnSpan(this.chkDropDecimals, 2);
+            this.chkDropDecimals.Location = new System.Drawing.Point(7, 6);
+            this.chkDropDecimals.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
+            this.chkDropDecimals.Name = "chkDropDecimals";
+            this.chkDropDecimals.Size = new System.Drawing.Size(268, 17);
+            this.chkDropDecimals.TabIndex = 4;
+            this.chkDropDecimals.Text = "Drop Decimals When More Than 1 Minute";
+            this.chkDropDecimals.UseVisualStyleBackColor = true;
+            // 
+            // rdoTenths
+            // 
+            this.rdoTenths.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.rdoTenths.AutoSize = true;
+            this.rdoTenths.Location = new System.Drawing.Point(142, 38);
+            this.rdoTenths.Name = "rdoTenths";
+            this.rdoTenths.Size = new System.Drawing.Size(133, 17);
+            this.rdoTenths.TabIndex = 6;
+            this.rdoTenths.TabStop = true;
+            this.rdoTenths.Text = "Tenths";
+            this.rdoTenths.UseVisualStyleBackColor = true;
+            // 
+            // rdoHundredths
+            // 
+            this.rdoHundredths.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.rdoHundredths.AutoSize = true;
+            this.rdoHundredths.Location = new System.Drawing.Point(281, 38);
+            this.rdoHundredths.Name = "rdoHundredths";
+            this.rdoHundredths.Size = new System.Drawing.Size(135, 17);
+            this.rdoHundredths.TabIndex = 7;
+            this.rdoHundredths.TabStop = true;
+            this.rdoHundredths.Text = "Hundredths";
+            this.rdoHundredths.UseVisualStyleBackColor = true;
+            this.rdoHundredths.CheckedChanged += new System.EventHandler(this.rdoHundredths_CheckedChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.tableLayoutPanel7);
+            this.groupBox2.Location = new System.Drawing.Point(3, 232);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(431, 50);
+            this.groupBox2.TabIndex = 17;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Global Comparison";
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 1;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel7.Controls.Add(this.combComparison, 0, 0);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(1, 19);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 1;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(430, 25);
+            this.tableLayoutPanel7.TabIndex = 0;
+            // 
+            // combComparison
+            // 
+            this.combComparison.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combComparison.FormattingEnabled = true;
+            this.combComparison.Location = new System.Drawing.Point(3, 3);
+            this.combComparison.Name = "combComparison";
+            this.combComparison.Size = new System.Drawing.Size(424, 21);
+            this.combComparison.TabIndex = 13;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(3, 470);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(355, 13);
+            this.linkLabel1.TabIndex = 18;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "https://github.com/Minibeast/LiveSplit.Discord/blob/master/SYNTAX.md\r\n";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.syntaxLinkClicked);
             // 
             // label4
             // 
@@ -617,109 +732,6 @@
             this.NRsmallText.Size = new System.Drawing.Size(327, 20);
             this.NRsmallText.TabIndex = 2;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.tableLayoutPanel6);
-            this.groupBox1.Location = new System.Drawing.Point(3, 340);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(431, 90);
-            this.groupBox1.TabIndex = 16;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Delta Accuracy";
-            // 
-            // tableLayoutPanel6
-            // 
-            this.tableLayoutPanel6.ColumnCount = 3;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel6.Controls.Add(this.rdoSeconds, 0, 1);
-            this.tableLayoutPanel6.Controls.Add(this.chkDropDecimals, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.rdoTenths, 1, 1);
-            this.tableLayoutPanel6.Controls.Add(this.rdoHundredths, 2, 1);
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(6, 19);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.RowCount = 2;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(419, 65);
-            this.tableLayoutPanel6.TabIndex = 0;
-            // 
-            // chkDropDecimals
-            // 
-            this.chkDropDecimals.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkDropDecimals.AutoSize = true;
-            this.tableLayoutPanel6.SetColumnSpan(this.chkDropDecimals, 2);
-            this.chkDropDecimals.Location = new System.Drawing.Point(7, 6);
-            this.chkDropDecimals.Margin = new System.Windows.Forms.Padding(7, 3, 3, 3);
-            this.chkDropDecimals.Name = "chkDropDecimals";
-            this.chkDropDecimals.Size = new System.Drawing.Size(268, 17);
-            this.chkDropDecimals.TabIndex = 4;
-            this.chkDropDecimals.Text = "Drop Decimals When More Than 1 Minute";
-            this.chkDropDecimals.UseVisualStyleBackColor = true;
-            // 
-            // rdoSeconds
-            // 
-            this.rdoSeconds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.rdoSeconds.AutoSize = true;
-            this.rdoSeconds.Location = new System.Drawing.Point(3, 38);
-            this.rdoSeconds.Name = "rdoSeconds";
-            this.rdoSeconds.Size = new System.Drawing.Size(133, 17);
-            this.rdoSeconds.TabIndex = 5;
-            this.rdoSeconds.TabStop = true;
-            this.rdoSeconds.Text = "Seconds";
-            this.rdoSeconds.UseVisualStyleBackColor = true;
-            this.rdoSeconds.CheckedChanged += new System.EventHandler(rdoSeconds_CheckedChanged);
-            // 
-            // rdoTenths
-            // 
-            this.rdoTenths.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.rdoTenths.AutoSize = true;
-            this.rdoTenths.Location = new System.Drawing.Point(142, 38);
-            this.rdoTenths.Name = "rdoTenths";
-            this.rdoTenths.Size = new System.Drawing.Size(133, 17);
-            this.rdoTenths.TabIndex = 6;
-            this.rdoTenths.TabStop = true;
-            this.rdoTenths.Text = "Tenths";
-            this.rdoTenths.UseVisualStyleBackColor = true;
-            // 
-            // rdoHundredths
-            // 
-            this.rdoHundredths.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.rdoHundredths.AutoSize = true;
-            this.rdoHundredths.Location = new System.Drawing.Point(281, 38);
-            this.rdoHundredths.Name = "rdoHundredths";
-            this.rdoHundredths.Size = new System.Drawing.Size(135, 17);
-            this.rdoHundredths.TabIndex = 7;
-            this.rdoHundredths.TabStop = true;
-            this.rdoHundredths.Text = "Hundredths";
-            this.rdoHundredths.UseVisualStyleBackColor = true;
-            this.rdoHundredths.CheckedChanged += new System.EventHandler(rdoHundredths_CheckedChanged);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.tableLayoutPanel7);
-            this.groupBox2.Location = new System.Drawing.Point(3, 232);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(431, 50);
-            this.groupBox2.TabIndex = 17;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Comparison";
-            // 
-            // tableLayoutPanel7
-            // 
-            this.tableLayoutPanel7.ColumnCount = 1;
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel7.Controls.Add(this.combComparison, 0, 0);
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(1, 19);
-            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            this.tableLayoutPanel7.RowCount = 1;
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(430, 25);
-            this.tableLayoutPanel7.TabIndex = 0;
-            // 
             // DiscordSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -728,10 +740,15 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DiscordSettings";
             this.Padding = new System.Windows.Forms.Padding(7);
-            this.Size = new System.Drawing.Size(454, 739);
+            this.Size = new System.Drawing.Size(454, 505);
             this.Load += new System.EventHandler(this.DiscordSettings_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.tableLayoutPanel7.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -745,11 +762,6 @@
             this.tabPage4.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.tableLayoutPanel6.ResumeLayout(false);
-            this.tableLayoutPanel6.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.tableLayoutPanel7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -811,5 +823,6 @@
         private System.Windows.Forms.RadioButton rdoHundredths;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
