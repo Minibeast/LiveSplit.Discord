@@ -17,7 +17,8 @@ namespace LiveSplit.UI.Components
         public Discord.Discord discord;
         public ActivityManager activityManager;
         private LiveSplitState State { get; set; }
-        private DiscordComponentFormatter Formatter { get; set; }
+        private DiscordComponentDeltaFormatter DeltaFormatter { get; set; }
+        private DiscordComponentTimeFormatter TimeFormatter { get; set; }
         private bool Initialized;
 
         private Dictionary<string, string> ComparisonDict;
@@ -43,7 +44,8 @@ namespace LiveSplit.UI.Components
                 CurrentState = State
             };
 
-            Formatter = new DiscordComponentFormatter(Settings.Accuracy, Settings.DropDecimals);
+            DeltaFormatter = new DiscordComponentDeltaFormatter(Settings.Accuracy, Settings.DropDecimals);
+            TimeFormatter = new DiscordComponentTimeFormatter(TimeAccuracy.Seconds);
             state.ComparisonRenamed += state_ComparisonRenamed;
 
             ComparisonDict = new Dictionary<string, string>()
@@ -71,12 +73,12 @@ namespace LiveSplit.UI.Components
 
         public void UpdatePresence(LiveSplitState state)
         {
-            Formatter.Accuracy = Settings.Accuracy;
-            Formatter.DropDecimals = Settings.DropDecimals;
+            DeltaFormatter.Accuracy = Settings.Accuracy;
+            DeltaFormatter.DropDecimals = Settings.DropDecimals;
 
-            string CurrentComparison = Settings.Comparison;
-            if (CurrentComparison == "Current Comparison")
-                CurrentComparison = state.CurrentComparison;
+            string GlobalComparison = Settings.Comparison;
+            if (GlobalComparison == "Current Comparison")
+                GlobalComparison = state.CurrentComparison;
 
             TimerPhase RunState = state.CurrentPhase;
             string CategoryName = state.Run.CategoryName;
@@ -119,7 +121,7 @@ namespace LiveSplit.UI.Components
             {
                 var timestring = "";
                 if (state.CurrentSplitIndex > 0)
-                    GetDelta(CurrentComparison);
+                    GetDelta(GlobalComparison);
 
                 if (RunState != TimerPhase.Paused && timestring.Length > 0)
                     RunningImage = timestring.Substring(0, 1) == "+" ? "red_square" : "green_square";
@@ -176,13 +178,7 @@ namespace LiveSplit.UI.Components
                         if (RunState == TimerPhase.NotRunning)
                             return "Not Running";
                         else if (RunState == TimerPhase.Ended)
-                        {
-                            var time = state.CurrentTime[state.CurrentTimingMethod];
-                            if (time.HasValue)
-                                return "Ended. Final Time: " + time.Value.ToString(@"hh\:mm\:ss");
-                            else
-                                return "Ended.";
-                        }
+                            return "Ended. Final Time: " + TimeFormatter.Format(state.CurrentTime[state.CurrentTimingMethod]);
                         else if (RunState == TimerPhase.Paused)
                             return "Paused";
                         else
@@ -203,13 +199,8 @@ namespace LiveSplit.UI.Components
                 text = text.Replace("%category_detailed", DetailedCategoryName);
                 text = text.Replace("%category", CategoryName);
                 text = text.Replace("%attempts", state.Run.AttemptCount.ToString());
-                text = text.Replace("%comparison", CurrentComparison);
-                var nottime = state.CurrentTime[state.CurrentTimingMethod];
-                if (nottime.HasValue)
-                    text = text.Replace("%time", nottime.Value.ToString(@"hh\:mm\:ss"));
-                else
-                    text = text.Replace("%time", "");
-
+                text = text.Replace("%comparison", GlobalComparison);
+                text = text.Replace("%time", TimeFormatter.Format(state.CurrentTime[state.CurrentTimingMethod]));
 
                 return text;
 
@@ -284,7 +275,7 @@ namespace LiveSplit.UI.Components
 
                 delta = LiveSplitStateHelper.GetLastDelta(state, SplitIndex, Comparison, state.CurrentTimingMethod);
 
-                return Formatter.Format(delta);
+                return DeltaFormatter.Format(delta);
             }
 
             string FindDelta(string SearchText)
@@ -300,7 +291,7 @@ namespace LiveSplit.UI.Components
                             return SearchText.Replace(deltaCheck.Key, GetDelta(deltaCheck.Value));
                     }
                 }
-                return SearchText.Replace("%delta", GetDelta(CurrentComparison));
+                return SearchText.Replace("%delta", GetDelta(GlobalComparison));
             }
         }
 

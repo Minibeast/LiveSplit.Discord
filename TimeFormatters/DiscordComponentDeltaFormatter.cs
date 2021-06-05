@@ -2,12 +2,12 @@
 
 namespace LiveSplit.TimeFormatters
 {
-    public class DiscordComponentFormatter : ITimeFormatter
+    public class DiscordComponentDeltaFormatter : ITimeFormatter
     {
         public TimeAccuracy Accuracy { get; set; }
         public bool DropDecimals { get; set; }
 
-        public DiscordComponentFormatter(TimeAccuracy accuracy, bool dropDecimals)
+        public DiscordComponentDeltaFormatter(TimeAccuracy accuracy, bool dropDecimals)
         {
             Accuracy = accuracy;
             DropDecimals = dropDecimals;

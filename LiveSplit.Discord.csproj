@@ -50,7 +50,8 @@
     <Compile Include="DiscordGameSDK\LobbyManager.cs" />
     <Compile Include="DiscordGameSDK\StorageManager.cs" />
     <Compile Include="DiscordGameSDK\StoreManager.cs" />
-    <Compile Include="TimeFormatters\DiscordComponentFormatter.cs" />
+    <Compile Include="TimeFormatters\DiscordComponentDeltaFormatter.cs" />
+    <Compile Include="TimeFormatters\DiscordComponentTimeFormatter.cs" />
     <Compile Include="UI\Components\DiscordComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Components\DiscordFactory.cs" />
