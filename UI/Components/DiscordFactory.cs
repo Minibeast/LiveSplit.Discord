@@ -22,6 +22,6 @@ namespace LiveSplit.UI.Components
 
         public string UpdateURL => "https://minibeast.github.io/files/";
 
-        public Version Version => Version.Parse("1.6.1");
+        public Version Version => Version.Parse("1.6.5");
     }
 }
